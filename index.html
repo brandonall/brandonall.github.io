@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+  
+    body {
+      height: 100%;
+      background: #1D2736;
+      color: #3D8AFF;
+      font-size: 1cm;
+      font-family: Arial;
+      text-align: center;
+    }
+    
+    #mainMessage {
+      top: 25%;
+      left: 0%;
+      padding: 3mm;
+      background-color: #000;
+      display: inline-block;
+      position: fixed;
+      width: 100%;
+      color: #FFF;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!--messageElement-->
+  <div id="mainMessage">Hey, Victoria</div>
+  
+  <script>
+    //Message element
+    var mainMessageElem = document.getElementById("mainMessage");
+
+    //3500 MS = 3.5 seconds
+    var intervalValue = 3500;
+
+    //Create timer based on interval
+    //Calls the updateText function which changes the message
+    var updateTimer = setInterval(updateText, intervalValue);
+
+    //The index of the current message being displayed
+    var messageIndex = 0;
+
+    //Array containing all the messages
+    var messages = ["I know it's a bit late...",
+                   "But, I've been wanting to ask for a while",
+                   "And, I wanted it to be semi private",
+                   "But, you have been kinda busy",
+                   "Will you go to HOCO with me?",
+                   "Also, I know some people on a party bus if you wanna go"]
+
+    //Update the message element with the next message.
+    //When done call showSignature function
+    function updateText() {
+      mainMessageElem.innerHTML = messages[messageIndex++];
+  
+      //If all messages have been displayed
+      if (messageIndex >= messages.length) {
+        //Clear the timer to avoid wasting resources
+        window.clearInterval(updateTimer); 
+      }
+      
+    }
+    
+  </script>
+</body>
+</html>
