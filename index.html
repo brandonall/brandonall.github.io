@@ -1,12 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://static.codepen.io/assets/editor/live/console_runner-35ce412171641ff1bf5aafef664326622ab85fdc72688d6861505d88ff7e036f.js"></script>
-<script src="https://static.codepen.io/assets/editor/live/css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js"></script>
 <meta charset="UTF-8">
-<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
-<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
 <title>Work in Progress</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 <style>
@@ -374,57 +369,6 @@ path#f3-l9 {
   -webkit-transform: rotateX(-37deg) rotateY(-46deg) rotateZ(-23deg) translateX(8px) translateY(20px) translateZ(-50px);
           transform: rotateX(-37deg) rotateY(-46deg) rotateZ(-23deg) translateX(8px) translateY(20px) translateZ(-50px);
 }
-.moving-zone {
-    position: absolute;
-    top:50%; left:50%;
-    width:300px; height:120px;
-    margin: -60px 0 0 -150px;
-    perspective: 800px;
-}
-.popup {
-    position: absolute;
-    z-index: 1000;
-    width:300px;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 20px 0 20px 0;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    background: -webkit-linear-gradient(top left, white 50%, cyan 50%);
-    background:    -moz-linear-gradient(top left, white 50%, cyan 50%);
-    background:     -ms-linear-gradient(top left, white 50%, cyan 50%);
-    background:      -o-linear-gradient(top left, white 50%, cyan 50%);
-    background:         linear-gradient(top left, white 50%, cyan 50%);
-}
-.popup:before {
-    content: '';
-    position: absolute;
-    left:5%; top:5%;
-    width:90%; height:90%;
-    border-radius: inherit;
-    background: rgba(0,0,0,.1);
-    box-shadow: 0 0 40px 20px rgba(0,0,0,.1);
-    transform: translateZ(-100px);
-}
-.popup-content {
-    background: #444;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px 0 10px 0;
-}
-.popup-text {
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    line-height: 30px;
-    font-weight: 100;
-    text-align: center;
-    transform: translateZ(15px);
-}
-.popup-text b {
-    color: cyan;
-    font-weight: 300;
-}
 </style>
 <script>
   window.console = window.console || function(t) {};
@@ -436,16 +380,6 @@ path#f3-l9 {
 </script>
 </head>
 <body translate="no">
-<div class="moving-zone">
-<div class="popup">
-<div class="popup-content">
-<div class="popup-text">
-This is a <b>work in progress</b>.<br />
-Feel free to stay as long as you'd like!
-</div>
-</div>
-</div>
-</div>
 <div class="content">
 <div class="container">
 <svg id="bongo-cat" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 787.3 433.8">
@@ -574,28 +508,8 @@ Feel free to stay as long as you'd like!
 </svg>
 </div>
 </div>
-<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
 <script id="rendered-js">
-          var moveForce = 30; // max popup movement in pixels
-var rotateForce = 20; // max popup rotation in deg
-
-$(document).mousemove(function (e) {
-  var docX = $(document).width();
-  var docY = $(document).height();
-
-  var moveX = (e.pageX - docX / 2) / (docX / 2) * -moveForce;
-  var moveY = (e.pageY - docY / 2) / (docY / 2) * -moveForce;
-
-  var rotateY = e.pageX / docX * rotateForce * 2 - rotateForce;
-  var rotateX = -(e.pageY / docY * rotateForce * 2 - rotateForce);
-
-  $('.popup').
-  css('left', moveX + 'px').
-  css('top', moveY + 'px').
-  css('transform', 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)');
-});
-          //# sourceURL=pen.js
- </script>
+    </script>
 </body>
 </html>
