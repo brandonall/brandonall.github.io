@@ -33,7 +33,7 @@ h1 {
     color: #d81b60;
 }
 
-.readings-container, .questions-container {
+.readings-container, .questions-container, .audio-container {
     background: white;
     padding: 30px;
     margin-bottom: 40px;
@@ -51,24 +51,9 @@ h2 {
     margin-bottom: 30px;
 }
 
-.reading h3 {
+.reading h4 {
     color: #d81b60;
-}
-
-button {
-    background: #1e88e5;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1.1em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-    margin-bottom: 20px;
-}
-
-button:hover {
-    background: #1565c0;
+    margin-bottom: 10px;
 }
 
 #questions-list {
@@ -89,6 +74,20 @@ button:hover {
     font-style: italic;
     text-align: right;
     color: #666;
+}
+
+.audio-container {
+    text-align: center;
+}
+
+.audio-container audio {
+    margin: 20px 0;
+}
+
+.audio-note {
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
 }
 
 footer {
