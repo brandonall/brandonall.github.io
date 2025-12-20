@@ -1,14 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dateEl = document.getElementById('date');
     const readingsContent = document.getElementById('readings-content');
-    const generateBtn = document.getElementById('generate-btn');
     const questionsList = document.getElementById('questions-list');
 
     // Set today's date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Hardcoded readings for December 20, 2025 (Saturday of the Third Week of Advent)
+    // Hardcoded readings for December 20, 2025
     function loadReadings() {
         const html = `
             <h3>Saturday of the Third Week of Advent</h3>
@@ -100,17 +99,15 @@ document.addEventListener('DOMContentLoaded', () => {
         readingsContent.innerHTML = html;
     }
 
-    // Generate thoughtful questions tailored for a dating Catholic couple
-    async function generateQuestions() {
-        questionsList.innerHTML = '<li>Preparing beautiful questions for us...</li>';
-
+    // Reflection questions – general, focused on personal faith growth
+    function loadQuestions() {
         const questions = [
-            "Mary says 'Behold, I am the handmaid of the Lord. May it be done to me according to your word.' How can we imitate Mary's total trust and 'yes' to God as we begin our relationship?",
-            "The angel tells Mary 'Do not be afraid.' What fears might we have about dating or the future, and how can we bring them to God together?",
-            "Today's readings speak of 'Emmanuel – God with us.' How do we sense God being present when we're together or talking?",
-            "Mary ponders the angel's words in her heart. What part of today's Gospel or readings is God inviting us to ponder deeply tonight?",
-            "The Psalm asks for 'clean hands and a pure heart.' How can we support each other in growing in purity and holiness as a couple?",
-            "God gives a sign of love even when it's not asked for. How does this remind us that God is always pursuing us first in our relationship?"
+            "What does Mary's response—'May it be done to me according to your word'—teach me about trusting God's will in my own life?",
+            "The angel says 'Do not be afraid.' Where in my life right now might God be inviting me to greater trust and less fear?",
+            "The reading speaks of 'Emmanuel—God with us.' How have I experienced God's presence recently?",
+            "Mary 'pondered what sort of greeting this might be.' How can I make more space to ponder God's word in silence?",
+            "The Psalm speaks of ascending the Lord's mountain with clean hands and a pure heart. What is one area where God might be calling me to greater purity or integrity?",
+            "The Lord gives a sign even when Ahaz refuses to ask for one. How does this reveal God's initiative and generosity toward me?"
         ];
 
         questionsList.innerHTML = '';
@@ -121,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Load everything
+    // Load everything on page load
     loadReadings();
-    generateBtn.addEventListener('click', generateQuestions);
+    loadQuestions();
 });
