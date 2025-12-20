@@ -8,61 +8,109 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Better: Use a free JSON API for USCCB readings (no CORS issues!)
-    async function loadReadings() {
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    const year = today.getFullYear();
-    const apiUrl = `https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`;
-
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('Not found');
-        const data = await response.json();
-
-        // Improved display with better formatting
-        let html = `<h3>${data.title || 'Daily Readings'}</h3>`;
-        
-        if (data.readings.firstReadingCitation && data.readings.firstReading) {
-            html += `<div class="reading"><h4>First Reading: \( {data.readings.firstReadingCitation}</h4><p> \){data.readings.firstReading.replace(/\n/g, '<br>')}</p></div>`;
-        }
-        if (data.readings.psalmCitation && data.readings.psalm) {
-            html += `<div class="reading"><h4>Responsorial Psalm: \( {data.readings.psalmCitation}</h4><p> \){data.readings.psalm.replace(/\n/g, '<br>')}</p></div>`;
-        }
-        if (data.readings.alleluia) {
-            html += `<div class="reading"><h4>Alleluia</h4><p>${data.readings.alleluia.replace(/\n/g, '<br>')}</p></div>`;
-        }
-        if (data.readings.gospelCitation && data.readings.gospel) {
-            html += `<div class="reading"><h4>Gospel: \( {data.readings.gospelCitation}</h4><p> \){data.readings.gospel.replace(/\n/g, '<br>')}</p></div>`;
-        }
+    // Hardcoded readings for December 20, 2025 (Saturday of the Third Week of Advent)
+    function loadReadings() {
+        const html = `
+            <h3>Saturday of the Third Week of Advent</h3>
+            
+            <div class="reading">
+                <h4>Reading 1: Isaiah 7:10-14</h4>
+                <p>The LORD spoke to Ahaz:<br>
+                Ask for a sign from the LORD, your God;<br>
+                let it be deep as the nether world, or high as the sky!<br>
+                But Ahaz answered,<br>
+                “I will not ask! I will not tempt the LORD!”<br>
+                Then Isaiah said:<br>
+                Listen, O house of David!<br>
+                Is it not enough for you to weary men,<br>
+                must you also weary my God?<br>
+                Therefore the Lord himself will give you this sign:<br>
+                the virgin shall conceive and bear a son,<br>
+                and shall name him Emmanuel.</p>
+            </div>
+            
+            <div class="reading">
+                <h4>Responsorial Psalm: Psalm 24:1-2, 3-4ab, 5-6</h4>
+                <p><strong>R. (see 7c and 10b) Let the Lord enter; he is the king of glory.</strong><br><br>
+                The LORD’s are the earth and its fullness;<br>
+                the world and those who dwell in it.<br>
+                For he founded it upon the seas<br>
+                and established it upon the rivers.<br><br>
+                <strong>R. Let the Lord enter; he is the king of glory.</strong><br><br>
+                Who can ascend the mountain of the LORD?<br>
+                or who may stand in his holy place?<br>
+                He whose hands are sinless, whose heart is clean,<br>
+                who desires not what is vain.<br><br>
+                <strong>R. Let the Lord enter; he is the king of glory.</strong><br><br>
+                He shall receive a blessing from the LORD,<br>
+                a reward from God his savior.<br>
+                Such is the race that seeks for him,<br>
+                that seeks the face of the God of Jacob.<br><br>
+                <strong>R. Let the Lord enter; he is the king of glory.</strong></p>
+            </div>
+            
+            <div class="reading">
+                <h4>Alleluia</h4>
+                <p><strong>R. Alleluia, alleluia.</strong><br><br>
+                O Key of David,<br>
+                opening the gates of God's eternal Kingdom:<br>
+                come and free the prisoners of darkness!<br><br>
+                <strong>R. Alleluia, alleluia.</strong></p>
+            </div>
+            
+            <div class="reading">
+                <h4>Gospel: Luke 1:26-38</h4>
+                <p>In the sixth month,<br>
+                the angel Gabriel was sent from God<br>
+                to a town of Galilee called Nazareth,<br>
+                to a virgin betrothed to a man named Joseph,<br>
+                of the house of David,<br>
+                and the virgin’s name was Mary.<br>
+                And coming to her, he said,<br>
+                “Hail, full of grace! The Lord is with you.”<br>
+                But she was greatly troubled at what was said<br>
+                and pondered what sort of greeting this might be.<br>
+                Then the angel said to her,<br>
+                “Do not be afraid, Mary,<br>
+                for you have found favor with God.<br>
+                Behold, you will conceive in your womb and bear a son,<br>
+                and you shall name him Jesus.<br>
+                He will be great and will be called Son of the Most High,<br>
+                and the Lord God will give him the throne of David his father,<br>
+                and he will rule over the house of Jacob forever,<br>
+                and of his Kingdom there will be no end.”<br><br>
+                But Mary said to the angel,<br>
+                “How can this be,<br>
+                since I have no relations with a man?”<br>
+                And the angel said to her in reply,<br>
+                “The Holy Spirit will come upon you,<br>
+                and the power of the Most High will overshadow you.<br>
+                Therefore the child to be born<br>
+                will be called holy, the Son of God.<br>
+                And behold, Elizabeth, your relative,<br>
+                has also conceived a son in her old age,<br>
+                and this is the sixth month for her who was called barren;<br>
+                for nothing will be impossible for God.”<br><br>
+                Mary said, “Behold, I am the handmaid of the Lord.<br>
+                May it be done to me according to your word.”<br>
+                Then the angel departed from her.</p>
+            </div>
+        `;
 
         readingsContent.innerHTML = html;
-    } catch (error) {
-        // Fallback: Link directly to USCCB with a nicer message
-        readingsContent.innerHTML = `
-            <p>Having trouble loading the readings automatically today. No worries!</p>
-            <p><strong><a href="https://bible.usccb.org/bible/readings/\( {month} \){day}${String(year).slice(-2)}.cfm" target="_blank">Click here to open today's readings on USCCB.org</a></strong></p>
-            <p>We'll keep improving the auto-load – thanks for your patience! 🙏</p>
-        `;
-        console.error('Readings load error:', error);
-    }
     }
 
-    // Generate questions (placeholder – replace with real LLM later)
+    // Generate thoughtful questions tailored for a dating Catholic couple
     async function generateQuestions() {
-        questionsList.innerHTML = '<li>Loading thoughtful questions...</li>';
+        questionsList.innerHTML = '<li>Preparing beautiful questions for us...</li>';
 
-        // Extract text from readings for prompt (simple)
-        const readingsText = readingsContent.textContent.substring(0, 3000);
-
-        // Hardcoded great questions for today's Annunciation-themed readings (Dec 20, 2025)
         const questions = [
-            "Mary responds with a total 'yes' to God despite not understanding everything. How can we practice saying 'yes' to God in our relationship, even when His plan feels uncertain?",
-            "The reading calls Jesus 'Emmanuel – God with us.' How have we experienced God being 'with us' when we're together?",
-            "The angel says 'Do not be afraid.' What fears (about dating, commitment, the future) might we be carrying, and how can we bring them to God together?",
-            "Mary ponders everything in her heart. What from today's readings is God inviting us to ponder or treasure as a couple?",
-            "The Psalm speaks of clean hands and a pure heart to ascend God's mountain. How can we support each other in growing in purity and holiness?",
-            "God asks for a sign but gives one anyway out of love. How does this show God's initiative in our relationship – that He pursues us first?"
+            "Mary says 'Behold, I am the handmaid of the Lord. May it be done to me according to your word.' How can we imitate Mary's total trust and 'yes' to God as we begin our relationship?",
+            "The angel tells Mary 'Do not be afraid.' What fears might we have about dating or the future, and how can we bring them to God together?",
+            "Today's readings speak of 'Emmanuel – God with us.' How do we sense God being present when we're together or talking?",
+            "Mary ponders the angel's words in her heart. What part of today's Gospel or readings is God inviting us to ponder deeply tonight?",
+            "The Psalm asks for 'clean hands and a pure heart.' How can we support each other in growing in purity and holiness as a couple?",
+            "God gives a sign of love even when it's not asked for. How does this remind us that God is always pursuing us first in our relationship?"
         ];
 
         questionsList.innerHTML = '';
@@ -71,14 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
             li.textContent = q;
             questionsList.appendChild(li);
         });
-
-        // Future: Uncomment for real OpenAI call (hide key in backend later)
-        // const apiKey = 'YOUR_OPENAI_KEY';
-        // const prompt = `Generate 6 open-ended, encouraging discussion questions for a young dating Catholic couple based on these readings: ${readingsText}. Focus on discernment, chastity, trust in God, and Christ-centered love.`;
-        // fetch('https://api.openai.com/v1/chat/completions', { ... })
     }
 
+    // Load everything
     loadReadings();
-
     generateBtn.addEventListener('click', generateQuestions);
 });
