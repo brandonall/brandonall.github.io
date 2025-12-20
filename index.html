@@ -20,12 +20,30 @@
     </section>
 
     <section class="audio-container">
-        <h2>Listen to Today's Readings</h2>
-        <audio controls style="width: 100%;">
-            <source src="audio/ElevenLabs_2025-12-20T11_45_44_Brian_eleven_v3.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <p class="audio-note">Voice by ElevenLabs (Brian)</p>
+    <h2>Listen to Today's Readings</h2>
+    
+    <div class="custom-audio-player">
+        <button id="play-pause-btn" class="play">
+            <svg viewBox="0 0 24 24" width="32" height="32">
+                <path fill="currentColor" d="M8 5v14l11-7z"/>
+            </svg>
+        </button>
+        
+        <div class="progress-container">
+            <span id="current-time">0:00</span>
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <span id="duration">0:00</span>
+        </div>
+    </div>
+    
+    <p class="audio-note">Voice by ElevenLabs (Brian)</p>
+    
+    <!-- Hidden native audio for actual playback -->
+    <audio id="audio-element" preload="metadata">
+        <source src="audio/ElevenLabs_2025-12-20T11_45_44_Brian_eleven_v3.mp3" type="audio/mpeg">
+    </audio>
     </section>
 
     <section class="questions-container">
