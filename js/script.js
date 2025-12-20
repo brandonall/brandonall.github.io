@@ -10,26 +10,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Better: Use a free JSON API for USCCB readings (no CORS issues!)
     async function loadReadings() {
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        const url = `https://cpbjr.github.io/catholic-readings-api/readings/2025/\( {month}- \){day}.json`;
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const year = today.getFullYear();
+    const apiUrl = `https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`;
 
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('Not found');
+        const data = await response.json();
 
-            let html = `
-                <h3>${data.title || 'Saturday of the Third Week of Advent'}</h3>
-                <div class="reading"><h4>First Reading: \( {data.readings.firstReadingCitation}</h4><p> \){data.readings.firstReading}</p></div>
-                <div class="reading"><h4>Responsorial Psalm: \( {data.readings.psalmCitation}</h4><p> \){data.readings.psalm}</p></div>
-                <div class="reading"><h4>Alleluia</h4><p>${data.readings.alleluia}</p></div>
-                <div class="reading"><h4>Gospel: \( {data.readings.gospelCitation}</h4><p> \){data.readings.gospel}</p></div>
-            `;
-            readingsContent.innerHTML = html;
-        } catch (error) {
-            readingsContent.innerHTML = '<p>Unable to load readings today. Visit <a href="https://bible.usccb.org/daily-bible-reading">USCCB.org</a> directly.</p>';
-            console.error(error);
+        // Improved display with better formatting
+        let html = `<h3>${data.title || 'Daily Readings'}</h3>`;
+        
+        if (data.readings.firstReadingCitation && data.readings.firstReading) {
+            html += `<div class="reading"><h4>First Reading: \( {data.readings.firstReadingCitation}</h4><p> \){data.readings.firstReading.replace(/\n/g, '<br>')}</p></div>`;
         }
+        if (data.readings.psalmCitation && data.readings.psalm) {
+            html += `<div class="reading"><h4>Responsorial Psalm: \( {data.readings.psalmCitation}</h4><p> \){data.readings.psalm.replace(/\n/g, '<br>')}</p></div>`;
+        }
+        if (data.readings.alleluia) {
+            html += `<div class="reading"><h4>Alleluia</h4><p>${data.readings.alleluia.replace(/\n/g, '<br>')}</p></div>`;
+        }
+        if (data.readings.gospelCitation && data.readings.gospel) {
+            html += `<div class="reading"><h4>Gospel: \( {data.readings.gospelCitation}</h4><p> \){data.readings.gospel.replace(/\n/g, '<br>')}</p></div>`;
+        }
+
+        readingsContent.innerHTML = html;
+    } catch (error) {
+        // Fallback: Link directly to USCCB with a nicer message
+        readingsContent.innerHTML = `
+            <p>Having trouble loading the readings automatically today. No worries!</p>
+            <p><strong><a href="https://bible.usccb.org/bible/readings/\( {month} \){day}${String(year).slice(-2)}.cfm" target="_blank">Click here to open today's readings on USCCB.org</a></strong></p>
+            <p>We'll keep improving the auto-load – thanks for your patience! 🙏</p>
+        `;
+        console.error('Readings load error:', error);
+    }
     }
 
     // Generate questions (placeholder – replace with real LLM later)
