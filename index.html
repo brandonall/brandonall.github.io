@@ -1,22 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Workspace</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Catholic Readings for Couples</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1, h2 { text-align: center; }
+        .reading { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+        .questions { background: #f9f9f9; padding: 20px; border-radius: 8px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<div id="root"></div>
-<!-- partial -->
-  <script src='https://unpkg.com/react@17/umd/react.development.js'></script>
-<script src='https://unpkg.com/react-dom@17/umd/react-dom.development.js'></script>
-<script src='https://unpkg.com/browse/@types/react@16.4.14/index.d.ts'></script>
-<script src='https://unpkg.com/browse/@types/react-dom@17.0.2/index.d.ts'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/classnames/2.3.1/index.min.js'></script>
-<script src='https://codepen.io/Hyperplexed/pen/xxYJYjM/54407644e24173ad6019b766443bf2a6.js'></script><script  src="./script.js"></script>
+    <h1>Daily Mass Readings for Couples</h1>
+    <p id="date"></p>
+    <div id="readings"></div>
+    <div class="questions">
+        <h2>Discussion Questions for Us</h2>
+        <button onclick="generateQuestions()">Generate Questions</button>
+        <ul id="questions-list"></ul>
+    </div>
 
+    <script>
+        const today = new Date();
+        document.getElementById('date').textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Fetch readings (example using USCCB RSS proxy or direct - for demo, hardcode or use fetch)
+        async function loadReadings() {
+            // Option 1: Use a CORS proxy for RSS (or switch to a JSON API like https://cpbjr.github.io/catholic-readings-api/readings.json)
+            const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://bible.usccb.org/readings.rss'));
+            const data = await response.json();
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(data.contents, "text/xml");
+            const item = xml.querySelector('item');
+            const description = item.querySelector('description').textContent;
+            document.getElementById('readings').innerHTML = description + '<p>Source: <a href="https://bible.usccb.org">USCCB.org</a></p>';
+        }
+
+        // Placeholder questions - replace with LLM API call
+        async function generateQuestions() {
+            const readingsText = document.getElementById('readings').textContent.substring(0, 2000); // Truncate for demo
+            const questionsList = document.getElementById('questions-list');
+            questionsList.innerHTML = '<li>Loading...</li>';
+
+            // Example hardcoded for today's readings (Dec 20, 2025 - Annunciation theme!)
+            const sampleQuestions = [
+                "In the Gospel, Mary says 'Behold, I am the handmaid of the Lord. May it be done to me according to your word.' How can we imitate Mary's trust and 'yes' to God in our relationship?",
+                "The First Reading promises 'Emmanuel' (God with us). How do we experience God being 'with us' when we're together?",
+                "The angel tells Mary 'Do not be afraid.' What fears do we have about our future together, and how can we surrender them to God?",
+                "Mary ponders the angel's words in her heart. What from today's readings is God inviting us to ponder together?",
+                "The Psalm asks 'Who can ascend the mountain of the LORD?' with clean hands and heart. How can we help each other grow in purity and holiness?",
+                "How does the sign of the virgin conceiving challenge or encourage us to believe in God's impossible plans for our relationship?"
+            ];
+
+            questionsList.innerHTML = '';
+            sampleQuestions.forEach(q => {
+                const li = document.createElement('li');
+                li.textContent = q;
+                questionsList.appendChild(li);
+            });
+
+            // To use real LLM: Uncomment and add your API key
+            // const apiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+            //     method: 'POST',
+            //     headers: { 'Authorization': 'Bearer YOUR_KEY', 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: `Generate 6 open-ended discussion questions for a dating Catholic couple based on these readings: ${readingsText}. Focus on faith, discernment, love, and Christ-centered relationship.` }] })
+            // });
+            // Then parse and display.
+        }
+
+        loadReadings();
+    </script>
 </body>
 </html>
