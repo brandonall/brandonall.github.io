@@ -76,11 +76,14 @@ h2 {
     color: #666;
 }
 
+/* Native audio player styling – helps on iOS */
 .audio-container {
     text-align: center;
 }
 
 .audio-container audio {
+    width: 100%;
+    max-width: 100%;
     margin: 20px 0;
 }
 
