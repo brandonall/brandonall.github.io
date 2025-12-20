@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Hardcoded readings for December 20, 2025
+    // Hardcoded readings for December 20, 2025 – responses removed from psalm
     function loadReadings() {
         const html = `
             <h3>Saturday of the Third Week of Advent</h3>
@@ -30,31 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <div class="reading">
                 <h4>Responsorial Psalm: Psalm 24:1-2, 3-4ab, 5-6</h4>
-                <p><strong>R. (see 7c and 10b) Let the Lord enter; he is the king of glory.</strong><br><br>
-                The LORD’s are the earth and its fullness;<br>
+                <p>The LORD’s are the earth and its fullness;<br>
                 the world and those who dwell in it.<br>
                 For he founded it upon the seas<br>
                 and established it upon the rivers.<br><br>
-                <strong>R. Let the Lord enter; he is the king of glory.</strong><br><br>
+                
                 Who can ascend the mountain of the LORD?<br>
                 or who may stand in his holy place?<br>
                 He whose hands are sinless, whose heart is clean,<br>
                 who desires not what is vain.<br><br>
-                <strong>R. Let the Lord enter; he is the king of glory.</strong><br><br>
+                
                 He shall receive a blessing from the LORD,<br>
                 a reward from God his savior.<br>
                 Such is the race that seeks for him,<br>
-                that seeks the face of the God of Jacob.<br><br>
-                <strong>R. Let the Lord enter; he is the king of glory.</strong></p>
+                that seeks the face of the God of Jacob.</p>
             </div>
             
             <div class="reading">
                 <h4>Alleluia</h4>
-                <p><strong>R. Alleluia, alleluia.</strong><br><br>
-                O Key of David,<br>
+                <p>O Key of David,<br>
                 opening the gates of God's eternal Kingdom:<br>
-                come and free the prisoners of darkness!<br><br>
-                <strong>R. Alleluia, alleluia.</strong></p>
+                come and free the prisoners of darkness!</p>
             </div>
             
             <div class="reading">
@@ -99,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         readingsContent.innerHTML = html;
     }
 
-    // Reflection questions – general, focused on personal faith growth
+    // Hard-coded reflection questions (general, personal faith focus)
     function loadQuestions() {
         const questions = [
             "What does Mary's response—'May it be done to me according to your word'—teach me about trusting God's will in my own life?",
