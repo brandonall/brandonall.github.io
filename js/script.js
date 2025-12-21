@@ -7,37 +7,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Hardcoded readings for December 20, 2025 – responses removed from psalm
+    // Hardcoded readings for December 21, 2025 – Fourth Sunday of Advent
     function loadReadings() {
         const html = `
-            <h3>Saturday of the Third Week of Advent</h3>
+            <h3>Fourth Sunday of Advent</h3>
             
             <div class="reading">
                 <h4>Reading 1: Isaiah 7:10-14</h4>
-                <p>The LORD spoke to Ahaz:<br>
+                <p>The LORD spoke to Ahaz, saying:<br>
                 Ask for a sign from the LORD, your God;<br>
-                let it be deep as the nether world, or high as the sky!<br>
+                let it be deep as the netherworld, or high as the sky!<br>
                 But Ahaz answered,<br>
                 “I will not ask! I will not tempt the LORD!”<br>
                 Then Isaiah said:<br>
                 Listen, O house of David!<br>
-                Is it not enough for you to weary men,<br>
+                Is it not enough for you to weary people,<br>
                 must you also weary my God?<br>
                 Therefore the Lord himself will give you this sign:<br>
-                the virgin shall conceive and bear a son,<br>
+                the virgin shall conceive, and bear a son,<br>
                 and shall name him Emmanuel.</p>
             </div>
             
             <div class="reading">
-                <h4>Responsorial Psalm: Psalm 24:1-2, 3-4ab, 5-6</h4>
-                <p>The LORD’s are the earth and its fullness;<br>
+                <h4>Responsorial Psalm: Psalm 24:1-2, 3-4, 5-6</h4>
+                <p>The LORD's are the earth and its fullness;<br>
                 the world and those who dwell in it.<br>
                 For he founded it upon the seas<br>
                 and established it upon the rivers.<br><br>
                 
                 Who can ascend the mountain of the LORD?<br>
                 or who may stand in his holy place?<br>
-                He whose hands are sinless, whose heart is clean,<br>
+                One whose hands are sinless, whose heart is clean,<br>
                 who desires not what is vain.<br><br>
                 
                 He shall receive a blessing from the LORD,<br>
@@ -47,63 +47,83 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             
             <div class="reading">
-                <h4>Alleluia</h4>
-                <p>O Key of David,<br>
-                opening the gates of God's eternal Kingdom:<br>
-                come and free the prisoners of darkness!</p>
+                <h4>Reading 2: Romans 1:1-7</h4>
+                <p>Paul, a slave of Christ Jesus,<br>
+                called to be an apostle and set apart for the gospel of God,<br>
+                which he promised previously through his prophets in the holy Scriptures,<br>
+                the gospel about his Son, descended from David according to the flesh,<br>
+                but established as Son of God in power<br>
+                according to the Spirit of holiness<br>
+                through resurrection from the dead, Jesus Christ our Lord.<br>
+                Through him we have received the grace of apostleship,<br>
+                to bring about the obedience of faith,<br>
+                for the sake of his name, among all the Gentiles,<br>
+                among whom are you also, who are called to belong to Jesus Christ;<br>
+                to all the beloved of God in Rome, called to be holy.<br>
+                Grace to you and peace from God our Father<br>
+                and the Lord Jesus Christ.</p>
             </div>
             
             <div class="reading">
-                <h4>Gospel: Luke 1:26-38</h4>
-                <p>In the sixth month,<br>
-                the angel Gabriel was sent from God<br>
-                to a town of Galilee called Nazareth,<br>
-                to a virgin betrothed to a man named Joseph,<br>
-                of the house of David,<br>
-                and the virgin’s name was Mary.<br>
-                And coming to her, he said,<br>
-                “Hail, full of grace! The Lord is with you.”<br>
-                But she was greatly troubled at what was said<br>
-                and pondered what sort of greeting this might be.<br>
-                Then the angel said to her,<br>
-                “Do not be afraid, Mary,<br>
-                for you have found favor with God.<br>
-                Behold, you will conceive in your womb and bear a son,<br>
-                and you shall name him Jesus.<br>
-                He will be great and will be called Son of the Most High,<br>
-                and the Lord God will give him the throne of David his father,<br>
-                and he will rule over the house of Jacob forever,<br>
-                and of his Kingdom there will be no end.”<br><br>
-                But Mary said to the angel,<br>
-                “How can this be,<br>
-                since I have no relations with a man?”<br>
-                And the angel said to her in reply,<br>
-                “The Holy Spirit will come upon you,<br>
-                and the power of the Most High will overshadow you.<br>
-                Therefore the child to be born<br>
-                will be called holy, the Son of God.<br>
-                And behold, Elizabeth, your relative,<br>
-                has also conceived a son in her old age,<br>
-                and this is the sixth month for her who was called barren;<br>
-                for nothing will be impossible for God.”<br><br>
-                Mary said, “Behold, I am the handmaid of the Lord.<br>
-                May it be done to me according to your word.”<br>
-                Then the angel departed from her.</p>
+                <h4>Alleluia</h4>
+                <p>The virgin shall conceive, and bear a son,<br>
+                and they shall name him Emmanuel.</p>
+            </div>
+            
+            <div class="reading">
+                <h4>Gospel: Matthew 1:18-24</h4>
+                <p>This is how the birth of Jesus Christ came about.<br>
+                When his mother Mary was betrothed to Joseph,<br>
+                but before they lived together,<br>
+                she was found with child through the Holy Spirit.<br>
+                Joseph her husband, since he was a righteous man,<br>
+                yet unwilling to expose her to shame,<br>
+                decided to divorce her quietly.<br>
+                Such was his intention when, behold,<br>
+                the angel of the Lord appeared to him in a dream and said,<br>
+                “Joseph, son of David,<br>
+                do not be afraid to take Mary your wife into your home.<br>
+                For it is through the Holy Spirit<br>
+                that this child has been conceived in her.<br>
+                She will bear a son and you are to name him Jesus,<br>
+                because he will save his people from their sins.”<br>
+                All this took place to fulfill<br>
+                what the Lord had said through the prophet:<br>
+                Behold, the virgin shall conceive and bear a son,<br>
+                and they shall name him Emmanuel,<br>
+                which means “God is with us.”<br>
+                When Joseph awoke,<br>
+                he did as the angel of the Lord had commanded him<br>
+                and took his wife into his home.</p>
             </div>
         `;
 
         readingsContent.innerHTML = html;
     }
 
-    // Hard-coded reflection questions (general, personal faith focus)
+    // New reflection questions – personal, faith-focused
     function loadQuestions() {
         const questions = [
-            "What does Mary's response—'May it be done to me according to your word'—teach me about trusting God's will in my own life?",
-            "The angel says 'Do not be afraid.' Where in my life right now might God be inviting me to greater trust and less fear?",
-            "The reading speaks of 'Emmanuel—God with us.' How have I experienced God's presence recently?",
-            "Mary 'pondered what sort of greeting this might be.' How can I make more space to ponder God's word in silence?",
-            "The Psalm speaks of ascending the Lord's mountain with clean hands and a pure heart. What is one area where God might be calling me to greater purity or integrity?",
-            "The Lord gives a sign even when Ahaz refuses to ask for one. How does this reveal God's initiative and generosity toward me?"
+            "Joseph planned to divorce Mary quietly to spare her shame, yet he obeyed the angel. Where might God be asking me to change my plans out of trust in Him?",
+            "The angel tells Joseph 'do not be afraid.' What fears am I carrying today, and how can I entrust them to God?",
+            "Today's readings repeatedly proclaim 'Emmanuel — God with us.' How have I sensed God's closeness in my life this Advent?",
+            "Paul describes himself as 'called to belong to Jesus Christ.' How do I experience my own calling and belonging to Christ?",
+            "The sign of the virgin conceiving points to God's initiative. How does this remind me that God often acts first in my life, even when I don't ask?",
+            "Joseph awoke and did what the angel commanded. What is one concrete way I can respond more promptly to God's promptings today?"
+        ];
+
+        questionsList.innerHTML = '';
+        questions.forEach(q => {
+            const li = document.createElement('li');
+            li.textContent = q;
+            questionsList.appendChild(li);
+        });
+    }
+
+    // Load everything on page load
+    loadReadings();
+    loadQuestions();
+});            "The Lord gives a sign even when Ahaz refuses to ask for one. How does this reveal God's initiative and generosity toward me?"
         ];
 
         questionsList.innerHTML = '';
