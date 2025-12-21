@@ -13,8 +13,12 @@ function fetchJSON(url) {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
-        if (res.statusCode !== 200) reject(new Error(`HTTP ${res.statusCode}`));
-        resolve(JSON.parse(data));
+        if (res.statusCode !== 200) return reject(new Error(`HTTP ${res.statusCode}`));
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
       });
     }).on('error', reject);
   });
@@ -22,17 +26,26 @@ function fetchJSON(url) {
 
 function postJSON(url, body) {
   return new Promise((resolve, reject) => {
+    const parsedUrl = new URL(url);
     const options = {
+      hostname: parsedUrl.hostname,
+      path: parsedUrl.pathname,
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${GROQ_API_KEY}`,
         'Content-Type': 'application/json'
       }
     };
-    const req = https.request(url, options, (res) => {
+    const req = https.request(options, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve(JSON.parse(data)));
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
     req.on('error', reject);
     req.write(JSON.stringify(body));
@@ -42,14 +55,18 @@ function postJSON(url, body) {
 
 function fetchAudio(url, body) {
   return new Promise((resolve, reject) => {
+    const parsedUrl = new URL(url);
     const options = {
+      hostname: parsedUrl.hostname,
+      path: parsedUrl.pathname,
       method: 'POST',
       headers: {
         'xi-api-key': ELEVENLABS_API_KEY,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'audio/mpeg'
       }
     };
-    const req = https.request(url, options, (res) => {
+    const req = https.request(options, (res) => {
       if (res.statusCode !== 200) return reject(new Error(`ElevenLabs HTTP ${res.statusCode}`));
       const chunks = [];
       res.on('data', chunk => chunks.push(chunk));
@@ -78,7 +95,10 @@ function fetchAudio(url, body) {
     let readingsHTML = `<h3>${data.title || 'Daily Readings'}</h3>`;
 
     const addReading = (citation, text) => {
-      if (text) readingsHTML += `<div class="reading"><h4>\( {citation}</h4><p> \){text.replace(/\n/g, '<br>')}</p></div>`;
+      if (text) {
+        const cleanedText = text.replace(/\n/g, '<br>');
+        readingsHTML += `<div class="reading"><h4>\( {citation}</h4><p> \){cleanedText}</p></div>`;
+      }
     };
 
     addReading(`Reading 1: ${data.readings.firstReadingCitation || ''}`, data.readings.firstReading);
@@ -99,7 +119,9 @@ function fetchAudio(url, body) {
       max_tokens: 300
     });
     const questionsText = groqData.choices[0]?.message?.content || '';
-    const questions = questionsText.split('\n').map(q => q.replace(/^\d+\.\s*/, '').trim()).filter(q => q.endsWith('?'));
+    const questions = questionsText.split('\n')
+      .map(q => q.replace(/^\d+\.\s*/, '').trim())
+      .filter(q => q.endsWith('?'));
 
     // Generate audio
     const audioBuffer = await fetchAudio(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
@@ -107,15 +129,25 @@ function fetchAudio(url, body) {
       model_id: 'eleven_multilingual_v2',
       voice_settings: { stability: 0.75, similarity_boost: 0.85 }
     });
-    fs.writeFileSync(path.join(__dirname, '..', 'audio', audioFilename), audioBuffer);
+    const audioPath = path.join(__dirname, '..', 'audio', audioFilename);
+    fs.writeFileSync(audioPath, audioBuffer);
 
-    // Write data/readings.js
-    const dataJS = `const dailyData = { title: "\( {(data.title || '').replace(/"/g, '\\"')}", readingsHTML: \` \){readingsHTML.replace(/`/g, '\\`')}\`, questions: \( {JSON.stringify(questions)}, audioSrc: "audio/ \){audioFilename}" };`;
-    fs.writeFileSync(path.join(__dirname, '..', 'data', 'readings.js'), dataJS);
+    // Write data/readings.js — fixed syntax
+    const escapedTitle = (data.title || '').replace(/"/g, '\\"');
+    const escapedHTML = readingsHTML.replace(/`/g, '\\`');
+    const dataJS = `const dailyData = {
+  title: "${escapedTitle}",
+  readingsHTML: \`${escapedHTML}\`,
+  questions: ${JSON.stringify(questions)},
+  audioSrc: "audio/${audioFilename}"
+};`;
 
-    console.log('Daily update complete!');
+    const dataPath = path.join(__dirname, '..', 'data', 'readings.js');
+    fs.writeFileSync(dataPath, dataJS);
+
+    console.log('Daily update complete! Generated audio and questions.');
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Error:', err.message || err);
     process.exit(1);
   }
 })();
