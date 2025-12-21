@@ -5,7 +5,7 @@ const path = require('path');
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, comforting Brian voice
+const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, resonant Brian voice from ElevenLabs
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
@@ -89,7 +89,6 @@ function fetchAudio(url, body) {
 
     console.log(`Updating for ${dateStr}`);
 
-    // Correct API URL
     const apiUrl = `https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`;
     const data = await fetchJSON(apiUrl);
 
@@ -113,7 +112,6 @@ function fetchAudio(url, body) {
 
     const fullText = Object.values(data.readings).filter(Boolean).join('\n\n');
 
-    // Generate questions
     const groqData = await postJSON('https://api.groq.com/openai/v1/chat/completions', {
       model: 'llama3-8b-8192',
       messages: [{ role: 'user', content: `Generate 6 short, personal reflection questions for faith growth based on these readings. Number them 1-6:\n\n${fullText.substring(0, 6000)}` }],
@@ -124,7 +122,6 @@ function fetchAudio(url, body) {
       .map(q => q.replace(/^\d+\.\s*/, '').trim())
       .filter(q => q.endsWith('?'));
 
-    // Generate audio
     const audioBuffer = await fetchAudio(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
       text: fullText,
       model_id: 'eleven_multilingual_v2',
@@ -133,7 +130,6 @@ function fetchAudio(url, body) {
     const audioPath = path.join(__dirname, '..', 'audio', audioFilename);
     fs.writeFileSync(audioPath, audioBuffer);
 
-    // Write data/readings.js
     const escapedTitle = (data.title || '').replace(/"/g, '\\"');
     const escapedHTML = readingsHTML.replace(/`/g, '\\`');
     const dataJS = `const dailyData = {
