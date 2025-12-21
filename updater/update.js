@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GROK_API_KEY = process.env.GROK_API_KEY;
 
 const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, resonant Brian voice
 
@@ -24,7 +24,7 @@ function fetchJSON(url) {
   });
 }
 
-function postJSON(url, body) {
+function postJSON(url, body, apiKey) {
   return new Promise((resolve, reject) => {
     const parsedUrl = new URL(url);
     const options = {
@@ -32,7 +32,7 @@ function postJSON(url, body) {
       path: parsedUrl.pathname,
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Authorization': 'Bearer ' + apiKey,
         'Content-Type': 'application/json'
       }
     };
@@ -89,12 +89,11 @@ function fetchAudio(url, body) {
 
     console.log('Updating for ' + dateStr);
 
-    // Build API URL as a separate variable to avoid any interpolation issues
     const baseApi = 'https://cpbjr.github.io/catholic-readings-api/readings/';
     const datePath = year + '/' + month + '-' + day + '.json';
     const apiUrl = baseApi + datePath;
-
     console.log('Fetching from: ' + apiUrl);
+
     const data = await fetchJSON(apiUrl);
 
     let readingsHTML = '<h3>' + (data.title || 'Daily Readings') + '</h3>';
@@ -117,15 +116,30 @@ function fetchAudio(url, body) {
 
     const fullText = Object.values(data.readings).filter(Boolean).join('\n\n');
 
-    const groqData = await postJSON('https://api.groq.com/openai/v1/chat/completions', {
-      model: 'llama3-8b-8192',
-      messages: [{ role: 'user', content: 'Generate 6 short, personal reflection questions for faith growth based on these readings. Number them 1-6:\n\n' + fullText.substring(0, 6000) }],
-      max_tokens: 300
-    });
-    const questionsText = groqData.choices[0]?.message?.content || '';
+    // Generate questions using Grok API
+    const grokData = await postJSON('https://api.x.ai/v1/chat/completions', {
+      model: 'grok-beta',
+      messages: [{ role: 'user', content: 'Generate 6 short, personal reflection questions for individual faith growth based on these Catholic Mass readings. Focus on trust, God's presence, gratitude, and personal response. Number them 1-6:\n\n' + fullText.substring(0, 6000) }],
+      max_tokens: 300,
+      temperature: 0.7
+    }, GROK_API_KEY);
+
+    const questionsText = grokData.choices && grokData.choices[0] ? grokData.choices[0].message.content : '';
     const questions = questionsText.split('\n')
       .map(q => q.replace(/^\d+\.\s*/, '').trim())
       .filter(q => q.endsWith('?'));
+
+    // Fallback if Grok fails (rare)
+    if (questions.length < 4) {
+      questions = [
+        "How does today's Gospel speak to my heart?",
+        "What is God inviting me to trust Him with today?",
+        "Where do I see 'God with us' in my life?",
+        "How can I respond to God's call like Joseph or Mary?",
+        "What fear is the angel telling me 'do not be afraid' about?",
+        "How can I prepare my heart more for Christmas?"
+      ];
+    }
 
     const audioBuffer = await fetchAudio('https://api.elevenlabs.io/v1/text-to-speech/' + VOICE_ID, {
       text: fullText,
