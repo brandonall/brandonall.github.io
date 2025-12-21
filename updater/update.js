@@ -5,7 +5,7 @@ const path = require('path');
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, resonant Brian voice (standard ElevenLabs Brian)
+const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, resonant Brian voice
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
@@ -84,38 +84,42 @@ function fetchAudio(url, body) {
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
-    const dateStr = `\( {year}- \){month}-${day}`;
-    const audioFilename = `audio-${dateStr}.mp3`;
+    const dateStr = year + '-' + month + '-' + day;
+    const audioFilename = 'audio-' + dateStr + '.mp3';
 
-    console.log(`Updating for ${dateStr}`);
+    console.log('Updating for ' + dateStr);
 
-    const apiUrl = `https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`;
-    console.log(`Fetching from: ${apiUrl}`);
+    // Build API URL as a separate variable to avoid any interpolation issues
+    const baseApi = 'https://cpbjr.github.io/catholic-readings-api/readings/';
+    const datePath = year + '/' + month + '-' + day + '.json';
+    const apiUrl = baseApi + datePath;
+
+    console.log('Fetching from: ' + apiUrl);
     const data = await fetchJSON(apiUrl);
 
-    let readingsHTML = `<h3>${data.title || 'Daily Readings'}</h3>`;
+    let readingsHTML = '<h3>' + (data.title || 'Daily Readings') + '</h3>';
 
     const addReading = (citation, text) => {
       if (text) {
         const cleanedText = text.replace(/\n/g, '<br>');
-        readingsHTML += `<div class="reading"><h4>\( {citation}</h4><p> \){cleanedText}</p></div>`;
+        readingsHTML += '<div class="reading"><h4>' + citation + '</h4><p>' + cleanedText + '</p></div>';
       }
     };
 
-    addReading(`Reading 1: ${data.readings.firstReadingCitation || ''}`, data.readings.firstReading);
+    addReading('Reading 1: ' + (data.readings.firstReadingCitation || ''), data.readings.firstReading);
     if (data.readings.psalm) {
       const verses = data.readings.psalm.split('\n').filter(l => !l.trim().startsWith('R.')).join('<br>');
-      addReading(`Responsorial Psalm: ${data.readings.psalmCitation || ''}`, verses);
+      addReading('Responsorial Psalm: ' + (data.readings.psalmCitation || ''), verses);
     }
-    addReading(`Reading 2: ${data.readings.secondReadingCitation || ''}`, data.readings.secondReading);
+    addReading('Reading 2: ' + (data.readings.secondReadingCitation || ''), data.readings.secondReading);
     addReading('Alleluia', data.readings.alleluia);
-    addReading(`Gospel: ${data.readings.gospelCitation || ''}`, data.readings.gospel);
+    addReading('Gospel: ' + (data.readings.gospelCitation || ''), data.readings.gospel);
 
     const fullText = Object.values(data.readings).filter(Boolean).join('\n\n');
 
     const groqData = await postJSON('https://api.groq.com/openai/v1/chat/completions', {
       model: 'llama3-8b-8192',
-      messages: [{ role: 'user', content: `Generate 6 short, personal reflection questions for faith growth based on these readings. Number them 1-6:\n\n${fullText.substring(0, 6000)}` }],
+      messages: [{ role: 'user', content: 'Generate 6 short, personal reflection questions for faith growth based on these readings. Number them 1-6:\n\n' + fullText.substring(0, 6000) }],
       max_tokens: 300
     });
     const questionsText = groqData.choices[0]?.message?.content || '';
@@ -123,7 +127,7 @@ function fetchAudio(url, body) {
       .map(q => q.replace(/^\d+\.\s*/, '').trim())
       .filter(q => q.endsWith('?'));
 
-    const audioBuffer = await fetchAudio(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+    const audioBuffer = await fetchAudio('https://api.elevenlabs.io/v1/text-to-speech/' + VOICE_ID, {
       text: fullText,
       model_id: 'eleven_multilingual_v2',
       voice_settings: { stability: 0.75, similarity_boost: 0.85 }
@@ -133,12 +137,7 @@ function fetchAudio(url, body) {
 
     const escapedTitle = (data.title || '').replace(/"/g, '\\"');
     const escapedHTML = readingsHTML.replace(/`/g, '\\`');
-    const dataJS = `const dailyData = {
-  title: "${escapedTitle}",
-  readingsHTML: \`${escapedHTML}\`,
-  questions: ${JSON.stringify(questions)},
-  audioSrc: "audio/${audioFilename}"
-};`;
+    const dataJS = 'const dailyData = {\n  title: "' + escapedTitle + '",\n  readingsHTML: `' + escapedHTML + '`,\n  questions: ' + JSON.stringify(questions) + ',\n  audioSrc: "audio/' + audioFilename + '"\n};';
 
     const dataPath = path.join(__dirname, '..', 'data', 'readings.js');
     fs.writeFileSync(dataPath, dataJS);
