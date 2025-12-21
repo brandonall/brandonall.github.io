@@ -1,115 +1,121 @@
-const fetch = require('node-fetch');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
-const { ElevenLabsClient } = require('@elevenlabs/elevenlabs-js');
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-// Use a nice, deep male voice – you can change this later if you find a better ID
-const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // "Brian" – deep, resonant, comforting (common default; works well)
+const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, comforting Brian voice
 
-async function run() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  const dateStr = `\( {year}- \){month}-${day}`;
-
-  console.log(`Generating content for ${dateStr}`);
-
-  // 1. Fetch readings
-  const apiUrl = `https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`;
-  const res = await fetch(apiUrl);
-  if (!res.ok) {
-    console.error('Failed to fetch readings');
-    return;
-  }
-  const data = await res.json();
-
-  // Build clean HTML for readings
-  let readingsHTML = `<h3>${data.title || 'Daily Readings'}</h3>`;
-
-  if (data.readings.firstReading) {
-    readingsHTML += `<div class="reading"><h4>Reading 1: \( {data.readings.firstReadingCitation}</h4><p> \){data.readings.firstReading.replace(/\n/g, '<br>')}</p></div>`;
-  }
-  if (data.readings.psalm) {
-    const verses = data.readings.psalm.split('\n').filter(line => !line.trim().startsWith('R.')).join('<br>');
-    readingsHTML += `<div class="reading"><h4>Responsorial Psalm: \( {data.readings.psalmCitation}</h4><p> \){verses}</p></div>`;
-  }
-  if (data.readings.secondReading) {
-    readingsHTML += `<div class="reading"><h4>Reading 2: \( {data.readings.secondReadingCitation}</h4><p> \){data.readings.secondReading.replace(/\n/g, '<br>')}</p></div>`;
-  }
-  if (data.readings.alleluia) {
-    readingsHTML += `<div class="reading"><h4>Alleluia</h4><p>${data.readings.alleluia.replace(/\n/g, '<br>')}</p></div>`;
-  }
-  if (data.readings.gospel) {
-    readingsHTML += `<div class="reading"><h4>Gospel: \( {data.readings.gospelCitation}</h4><p> \){data.readings.gospel.replace(/\n/g, '<br>')}</p></div>`;
-  }
-
-  // Full text for audio and questions
-  const fullText = [
-    data.title,
-    data.readings.firstReading,
-    data.readings.psalm,
-    data.readings.secondReading || '',
-    data.readings.alleluia,
-    data.readings.gospel
-  ].filter(Boolean).join('\n\n');
-
-  // 2. Generate reflection questions using Groq
-  const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${GROQ_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'llama3-8b-8192',
-      messages: [{
-        role: 'user',
-        content: `Generate 6 short, personal, open-ended reflection questions for individual faith growth based on these Catholic Mass readings. Focus on trust, God's presence, gratitude, and personal response. Number them 1-6:\n\n${fullText.substring(0, 6000)}`
-      }],
-      max_tokens: 300
-    })
+function fetchJSON(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'Accept': 'application/json' } }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        if (res.statusCode !== 200) reject(new Error(`HTTP ${res.statusCode}`));
+        resolve(JSON.parse(data));
+      });
+    }).on('error', reject);
   });
-  const groqData = await groqRes.json();
-  let questionsText = groqData.choices[0].message.content.trim();
-  const questions = questionsText.split('\n').map(q => q.replace(/^\d+\.\s*/, '').trim()).filter(q => q.endsWith('?'));
-
-  // 3. Generate ElevenLabs audio
-  const eleven = new ElevenLabsClient({ apiKey: ELEVENLABS_API_KEY });
-  const audioStream = await eleven.textToSpeech.stream(VOICE_ID, {
-    text: fullText,
-    modelId: 'eleven_multilingual_v2',
-    optimizeStreamingLatency: 3
-  });
-
-  const audioPath = path.join(__dirname, '..', 'audio', `audio-${dateStr}.mp3`);
-  const writeStream = fs.createWriteStream(audioPath);
-  audioStream.pipe(writeStream);
-
-  await new Promise((resolve, reject) => {
-    writeStream.on('finish', resolve);
-    writeStream.on('error', reject);
-  });
-
-  console.log('Audio saved');
-
-  // 4. Write data/readings.js for client-side loading
-  const dataJS = `
-// Auto-generated on ${new Date().toISOString()}
-const dailyData = {
-  title: "${(data.title || 'Daily Readings').replace(/"/g, '\\"')}",
-  readingsHTML: \`${readingsHTML.replace(/`/g, '\\`')}\`,
-  questions: ${JSON.stringify(questions)},
-  audioSrc: "audio/audio-${dateStr}.mp3"
-};
-`;
-
-  fs.writeFileSync(path.join(__dirname, '..', 'data', 'readings.js'), dataJS);
-
-  console.log('Daily update complete!');
 }
 
-run().catch(console.error);
+function postJSON(url, body) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    };
+    const req = https.request(url, options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(JSON.parse(data)));
+    });
+    req.on('error', reject);
+    req.write(JSON.stringify(body));
+    req.end();
+  });
+}
+
+function fetchAudio(url, body) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'xi-api-key': ELEVENLABS_API_KEY,
+        'Content-Type': 'application/json'
+      }
+    };
+    const req = https.request(url, options, (res) => {
+      if (res.statusCode !== 200) return reject(new Error(`ElevenLabs HTTP ${res.statusCode}`));
+      const chunks = [];
+      res.on('data', chunk => chunks.push(chunk));
+      res.on('end', () => resolve(Buffer.concat(chunks)));
+    });
+    req.on('error', reject);
+    req.write(JSON.stringify(body));
+    req.end();
+  });
+}
+
+(async () => {
+  try {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const dateStr = `\( {year}- \){month}-${day}`;
+    const audioFilename = `audio-${dateStr}.mp3`;
+
+    console.log(`Updating for ${dateStr}`);
+
+    // Fetch readings
+    const data = await fetchJSON(`https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`);
+
+    let readingsHTML = `<h3>${data.title || 'Daily Readings'}</h3>`;
+
+    const addReading = (citation, text) => {
+      if (text) readingsHTML += `<div class="reading"><h4>\( {citation}</h4><p> \){text.replace(/\n/g, '<br>')}</p></div>`;
+    };
+
+    addReading(`Reading 1: ${data.readings.firstReadingCitation || ''}`, data.readings.firstReading);
+    if (data.readings.psalm) {
+      const verses = data.readings.psalm.split('\n').filter(l => !l.trim().startsWith('R.')).join('<br>');
+      addReading(`Responsorial Psalm: ${data.readings.psalmCitation || ''}`, verses);
+    }
+    addReading(`Reading 2: ${data.readings.secondReadingCitation || ''}`, data.readings.secondReading);
+    addReading('Alleluia', data.readings.alleluia);
+    addReading(`Gospel: ${data.readings.gospelCitation || ''}`, data.readings.gospel);
+
+    const fullText = Object.values(data.readings).filter(Boolean).join('\n\n');
+
+    // Generate questions
+    const groqData = await postJSON('https://api.groq.com/openai/v1/chat/completions', {
+      model: 'llama3-8b-8192',
+      messages: [{ role: 'user', content: `Generate 6 short, personal reflection questions for faith growth based on these readings. Number them 1-6:\n\n${fullText.substring(0, 6000)}` }],
+      max_tokens: 300
+    });
+    const questionsText = groqData.choices[0]?.message?.content || '';
+    const questions = questionsText.split('\n').map(q => q.replace(/^\d+\.\s*/, '').trim()).filter(q => q.endsWith('?'));
+
+    // Generate audio
+    const audioBuffer = await fetchAudio(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+      text: fullText,
+      model_id: 'eleven_multilingual_v2',
+      voice_settings: { stability: 0.75, similarity_boost: 0.85 }
+    });
+    fs.writeFileSync(path.join(__dirname, '..', 'audio', audioFilename), audioBuffer);
+
+    // Write data/readings.js
+    const dataJS = `const dailyData = { title: "\( {(data.title || '').replace(/"/g, '\\"')}", readingsHTML: \` \){readingsHTML.replace(/`/g, '\\`')}\`, questions: \( {JSON.stringify(questions)}, audioSrc: "audio/ \){audioFilename}" };`;
+    fs.writeFileSync(path.join(__dirname, '..', 'data', 'readings.js'), dataJS);
+
+    console.log('Daily update complete!');
+  } catch (err) {
+    console.error('Error:', err);
+    process.exit(1);
+  }
+})();
