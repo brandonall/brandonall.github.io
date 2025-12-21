@@ -13,7 +13,7 @@ function fetchJSON(url) {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
-        if (res.statusCode !== 200) return reject(new Error(`HTTP ${res.statusCode}`));
+        if (res.statusCode !== 200) return reject(new Error('HTTP ' + res.statusCode));
         try {
           resolve(JSON.parse(data));
         } catch (e) {
@@ -24,7 +24,7 @@ function fetchJSON(url) {
   });
 }
 
-function postJSON(url, body, apiKey) {
+function postJSON(url, body) {
   return new Promise((resolve, reject) => {
     const parsedUrl = new URL(url);
     const options = {
@@ -32,7 +32,7 @@ function postJSON(url, body, apiKey) {
       path: parsedUrl.pathname,
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + apiKey,
+        'Authorization': 'Bearer ' + GROK_API_KEY,
         'Content-Type': 'application/json'
       }
     };
@@ -67,7 +67,7 @@ function fetchAudio(url, body) {
       }
     };
     const req = https.request(options, (res) => {
-      if (res.statusCode !== 200) return reject(new Error(`ElevenLabs HTTP ${res.statusCode}`));
+      if (res.statusCode !== 200) return reject(new Error('ElevenLabs HTTP ' + res.statusCode));
       const chunks = [];
       res.on('data', chunk => chunks.push(chunk));
       res.on('end', () => resolve(Buffer.concat(chunks)));
@@ -116,20 +116,25 @@ function fetchAudio(url, body) {
 
     const fullText = Object.values(data.readings).filter(Boolean).join('\n\n');
 
-    // Generate questions using Grok API
-    const grokData = await postJSON('https://api.x.ai/v1/chat/completions', {
+    // Generate questions with Grok API
+    const prompt = 'Generate 6 short, personal reflection questions for individual faith growth based on these Catholic Mass readings. Focus on trust, God\'s presence, gratitude, and personal response. Number them 1-6:\n\n' + fullText.substring(0, 6000);
+    const grokBody = {
       model: 'grok-beta',
-      messages: [{ role: 'user', content: 'Generate 6 short, personal reflection questions for individual faith growth based on these Catholic Mass readings. Focus on trust, God's presence, gratitude, and personal response. Number them 1-6:\n\n' + fullText.substring(0, 6000) }],
+      messages: [{ role: 'user', content: prompt }],
       max_tokens: 300,
       temperature: 0.7
-    }, GROK_API_KEY);
+    };
+    const grokData = await postJSON('https://api.x.ai/v1/chat/completions', grokBody);
 
-    const questionsText = grokData.choices && grokData.choices[0] ? grokData.choices[0].message.content : '';
-    const questions = questionsText.split('\n')
-      .map(q => q.replace(/^\d+\.\s*/, '').trim())
-      .filter(q => q.endsWith('?'));
+    let questions = [];
+    if (grokData.choices && grokData.choices[0] && grokData.choices[0].message) {
+      const questionsText = grokData.choices[0].message.content || '';
+      questions = questionsText.split('\n')
+        .map(q => q.replace(/^\d+\.\s*/, '').trim())
+        .filter(q => q.endsWith('?'));
+    }
 
-    // Fallback if Grok fails (rare)
+    // Fallback if Grok fails
     if (questions.length < 4) {
       questions = [
         "How does today's Gospel speak to my heart?",
