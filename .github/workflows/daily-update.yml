@@ -2,8 +2,8 @@ name: Daily Catholic Readings Update
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Runs daily at 06:00 UTC = midnight Central Time
-  workflow_dispatch:   # Allows you to run it manually for testing
+    - cron: '0 6 * * *'  # Midnight Central Time (06:00 UTC)
+  workflow_dispatch:
 
 jobs:
   update-content:
@@ -19,12 +19,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: |
-          cd updater
-          npm init -y
-          npm install node-fetch@2 @elevenlabs/elevenlabs-js groq-sdk
-
       - name: Run daily update script
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
@@ -32,9 +26,7 @@ jobs:
         run: node updater/update.js
 
       - name: Commit and push changes
-        run: |
-          git config user.name "Daily Updater Bot"
-          git config user.email "bot@users.noreply.github.com"
-          git add .
-          git diff --staged --quiet && echo "No changes to commit" || git commit -m "Daily update: $(date +'%Y-%m-%d')"
-          git push origin main
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          branch: main
