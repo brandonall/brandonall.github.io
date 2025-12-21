@@ -5,7 +5,7 @@ const path = require('path');
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, resonant Brian voice from ElevenLabs
+const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, resonant Brian voice (standard ElevenLabs Brian)
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
@@ -90,6 +90,7 @@ function fetchAudio(url, body) {
     console.log(`Updating for ${dateStr}`);
 
     const apiUrl = `https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`;
+    console.log(`Fetching from: ${apiUrl}`);
     const data = await fetchJSON(apiUrl);
 
     let readingsHTML = `<h3>${data.title || 'Daily Readings'}</h3>`;
