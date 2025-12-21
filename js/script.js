@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         readingsContent.innerHTML = html;
     }
 
-    // New reflection questions – personal, faith-focused
+    // New reflection questions – personal and faith-centered
     function loadQuestions() {
         const questions = [
             "Joseph planned to divorce Mary quietly to spare her shame, yet he obeyed the angel. Where might God be asking me to change my plans out of trust in Him?",
@@ -110,20 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
             "Paul describes himself as 'called to belong to Jesus Christ.' How do I experience my own calling and belonging to Christ?",
             "The sign of the virgin conceiving points to God's initiative. How does this remind me that God often acts first in my life, even when I don't ask?",
             "Joseph awoke and did what the angel commanded. What is one concrete way I can respond more promptly to God's promptings today?"
-        ];
-
-        questionsList.innerHTML = '';
-        questions.forEach(q => {
-            const li = document.createElement('li');
-            li.textContent = q;
-            questionsList.appendChild(li);
-        });
-    }
-
-    // Load everything on page load
-    loadReadings();
-    loadQuestions();
-});            "The Lord gives a sign even when Ahaz refuses to ask for one. How does this reveal God's initiative and generosity toward me?"
         ];
 
         questionsList.innerHTML = '';
