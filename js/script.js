@@ -1,13 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     const dateEl = document.getElementById('date');
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
 
-    // Set today's date
+    // Set the date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Hardcoded readings for December 21, 2025 – Fourth Sunday of Advent (quotes escaped)
+    // Load readings
     function loadReadings() {
         const html = `
             <h3>Fourth Sunday of Advent</h3>
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Ask for a sign from the LORD, your God;<br>
                 let it be deep as the netherworld, or high as the sky!<br>
                 But Ahaz answered,<br>
-                &quot;I will not ask! I will not tempt the LORD!&quot;<br>
+                \"I will not ask! I will not tempt the LORD!\"<br>
                 Then Isaiah said:<br>
                 Listen, O house of David!<br>
                 Is it not enough for you to weary people,<br>
@@ -81,27 +81,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 decided to divorce her quietly.<br>
                 Such was his intention when, behold,<br>
                 the angel of the Lord appeared to him in a dream and said,<br>
-                &quot;Joseph, son of David,<br>
+                \"Joseph, son of David,<br>
                 do not be afraid to take Mary your wife into your home.<br>
                 For it is through the Holy Spirit<br>
                 that this child has been conceived in her.<br>
                 She will bear a son and you are to name him Jesus,<br>
-                because he will save his people from their sins.&quot;<br>
+                because he will save his people from their sins.\"<br>
                 All this took place to fulfill<br>
                 what the Lord had said through the prophet:<br>
                 Behold, the virgin shall conceive and bear a son,<br>
                 and they shall name him Emmanuel,<br>
-                which means &quot;God is with us.&quot;<br>
+                which means \"God is with us.\"<br>
                 When Joseph awoke,<br>
                 he did as the angel of the Lord had commanded him<br>
                 and took his wife into his home.</p>
             </div>
         `;
-
         readingsContent.innerHTML = html;
     }
 
-    // Reflection questions
+    // Load questions
     function loadQuestions() {
         const questions = [
             "Joseph planned to divorce Mary quietly to spare her shame, yet he obeyed the angel. Where might God be asking me to change my plans out of trust in Him?",
@@ -113,37 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         questionsList.innerHTML = '';
-        questions.forEach(q => {
+        questions.forEach(function(q) {
             const li = document.createElement('li');
             li.textContent = q;
             questionsList.appendChild(li);
         });
     }
 
-    // Load everything
-    loadReadings();
-    loadQuestions();
-});
-    // New reflection questions – personal and faith-centered
-    function loadQuestions() {
-        const questions = [
-            "Joseph planned to divorce Mary quietly to spare her shame, yet he obeyed the angel. Where might God be asking me to change my plans out of trust in Him?",
-            "The angel tells Joseph 'do not be afraid.' What fears am I carrying today, and how can I entrust them to God?",
-            "Today's readings repeatedly proclaim 'Emmanuel — God with us.' How have I sensed God's closeness in my life this Advent?",
-            "Paul describes himself as 'called to belong to Jesus Christ.' How do I experience my own calling and belonging to Christ?",
-            "The sign of the virgin conceiving points to God's initiative. How does this remind me that God often acts first in my life, even when I don't ask?",
-            "Joseph awoke and did what the angel commanded. What is one concrete way I can respond more promptly to God's promptings today?"
-        ];
-
-        questionsList.innerHTML = '';
-        questions.forEach(q => {
-            const li = document.createElement('li');
-            li.textContent = q;
-            questionsList.appendChild(li);
-        });
-    }
-
-    // Load everything on page load
     loadReadings();
     loadQuestions();
 });
