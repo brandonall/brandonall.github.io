@@ -5,7 +5,7 @@ const path = require('path');
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, comforting Brian voice
+const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';  // Deep, comforting Brian voice – change if needed
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
@@ -58,7 +58,7 @@ function fetchAudio(url, body) {
     const parsedUrl = new URL(url);
     const options = {
       hostname: parsedUrl.hostname,
-      path: parsedUrl.pathname,
+      path: parsedUrl.pathname + parsedUrl.search,
       method: 'POST',
       headers: {
         'xi-api-key': ELEVENLABS_API_KEY,
@@ -89,8 +89,9 @@ function fetchAudio(url, body) {
 
     console.log(`Updating for ${dateStr}`);
 
-    // Fetch readings
-    const data = await fetchJSON(`https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`);
+    // Correct API URL format
+    const apiUrl = `https://cpbjr.github.io/catholic-readings-api/readings/\( {year}/ \){month}-${day}.json`;
+    const data = await fetchJSON(apiUrl);
 
     let readingsHTML = `<h3>${data.title || 'Daily Readings'}</h3>`;
 
@@ -132,7 +133,7 @@ function fetchAudio(url, body) {
     const audioPath = path.join(__dirname, '..', 'audio', audioFilename);
     fs.writeFileSync(audioPath, audioBuffer);
 
-    // Write data/readings.js — fixed syntax
+    // Write data/readings.js
     const escapedTitle = (data.title || '').replace(/"/g, '\\"');
     const escapedHTML = readingsHTML.replace(/`/g, '\\`');
     const dataJS = `const dailyData = {
@@ -145,7 +146,7 @@ function fetchAudio(url, body) {
     const dataPath = path.join(__dirname, '..', 'data', 'readings.js');
     fs.writeFileSync(dataPath, dataJS);
 
-    console.log('Daily update complete! Generated audio and questions.');
+    console.log('Daily update complete!');
   } catch (err) {
     console.error('Error:', err.message || err);
     process.exit(1);
