@@ -22,7 +22,7 @@ jobs:
       - name: Run daily update script
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
         run: node updater/update.js
 
       - name: Commit and push changes
