@@ -2,7 +2,7 @@ name: Daily Catholic Readings Update
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Midnight Central Time
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -25,12 +25,14 @@ jobs:
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
         run: node updater/update.js
 
-      - name: Pull latest and push changes
+      - name: Commit and push changes
         run: |
           git config user.email "bot@users.noreply.github.com"
           git config user.name "Daily Updater Bot"
-          git config pull.rebase true
           git add audio/ data/
           git commit -m "Daily update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git pull origin main --rebase
+          git fetch origin main
+          git reset --hard origin/main
+          git add audio/ data/
+          git commit -m "Daily update: $(date +'%Y-%m-%d')" || echo "No changes"
           git push origin main
