@@ -27,6 +27,8 @@ jobs:
 
       - name: Pull latest and push changes
         run: |
+          git config user.email "bot@users.noreply.github.com"
+          git config user.name "Daily Updater Bot"
           git config pull.rebase true
           git add audio/ data/
           git commit -m "Daily update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
