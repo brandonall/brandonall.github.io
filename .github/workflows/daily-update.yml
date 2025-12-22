@@ -25,14 +25,11 @@ jobs:
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
         run: node updater/update.js
 
-      - name: Commit and push changes
+      - name: Pull latest and push changes
         run: |
           git config user.email "bot@users.noreply.github.com"
           git config user.name "Daily Updater Bot"
           git add audio/ data/
           git commit -m "Daily update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git fetch origin main
-          git reset --hard origin/main
-          git add audio/ data/
-          git commit -m "Daily update: $(date +'%Y-%m-%d')" || echo "No changes"
-          git push origin main
+          git pull origin main --rebase || echo "Pull failed (non-fatal)"
+          git push origin HEAD:main
