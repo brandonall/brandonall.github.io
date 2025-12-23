@@ -76,37 +76,23 @@ h2 {
     color: #666;
 }
 
-/* Native audio player tweaks for better iPhone fit */
+/* Reverted audio player - back to normal/native look */
 .audio-container {
     text-align: center;
 }
 
 audio {
     width: 100%;
-    height: 60px;  /* Slightly taller for better touch controls on iOS */
-    background: #f8f9fa;  /* Matches body background */
-    border-radius: 12px;  /* Rounded corners like cards */
-    border: none;
-    outline: none;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);  /* Subtle inner shadow for depth */
     margin: 20px 0;
 }
 
-/* Limited iOS-specific tweaks (works on Safari) */
-audio::-webkit-media-controls-enclosure {
-    background: transparent;
-    border-radius: 12px;
-}
-
-audio::-webkit-media-controls-panel {
-    background: #f8f9fa;
-    border-radius: 12px;
-}
-
-audio::-webkit-media-controls-play-button {
-    background: #1e88e5 !important;  /* Your blue theme */
-    color: white !important;
-    border-radius: 50%;
+/* No extra iOS tweaks - lets native player be itself */
+audio::-webkit-media-controls-enclosure,
+audio::-webkit-media-controls-panel,
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-timeline,
+audio::-webkit-media-controls-volume-slider {
+    /* Removed all overrides to revert to default */
 }
 
 footer {
