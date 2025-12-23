@@ -76,21 +76,37 @@ h2 {
     color: #666;
 }
 
-/* Native audio player styling – helps on iOS */
+/* Native audio player tweaks for better iPhone fit */
 .audio-container {
     text-align: center;
 }
 
-.audio-container audio {
+audio {
     width: 100%;
-    max-width: 100%;
+    height: 60px;  /* Slightly taller for better touch controls on iOS */
+    background: #f8f9fa;  /* Matches body background */
+    border-radius: 12px;  /* Rounded corners like cards */
+    border: none;
+    outline: none;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);  /* Subtle inner shadow for depth */
     margin: 20px 0;
 }
 
-.audio-note {
-    font-size: 0.9em;
-    color: #666;
-    font-style: italic;
+/* Limited iOS-specific tweaks (works on Safari) */
+audio::-webkit-media-controls-enclosure {
+    background: transparent;
+    border-radius: 12px;
+}
+
+audio::-webkit-media-controls-panel {
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+audio::-webkit-media-controls-play-button {
+    background: #1e88e5 !important;  /* Your blue theme */
+    color: white !important;
+    border-radius: 50%;
 }
 
 footer {
