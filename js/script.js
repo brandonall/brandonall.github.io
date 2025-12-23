@@ -2,12 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateEl = document.getElementById('date');
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
+    const themeBtn = document.getElementById('themeBtn');
 
     // Set today's date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Hardcoded readings for December 22, 2025 – Monday of the Fourth Week of Advent
+    // Load readings for December 22, 2025
     function loadReadings() {
         const html = `
             <h3>Monday of the Fourth Week of Advent</h3>
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         readingsContent.innerHTML = html;
     }
 
-    // Reflection questions for today
+    // Reflection questions
     function loadQuestions() {
         const questions = [
             "Hannah dedicated Samuel to the Lord in gratitude for answered prayers. What gifts or blessings in my life am I called to offer back to God?",
@@ -110,7 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Load everything
+    // Theme toggle
+    themeBtn.addEventListener('click', () => {
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            themeBtn.textContent = 'Dark Mode';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeBtn.textContent = 'Light Mode';
+        }
+    });
+
+    // Load content
     loadReadings();
     loadQuestions();
 });
