@@ -29,6 +29,8 @@ jobs:
         run: |
           git config user.email "bot@users.noreply.github.com"
           git config user.name "Daily Updater Bot"
+          git fetch origin main
+          git reset --hard origin/main
           git add audio/ data/
           git commit -m "Daily update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push origin HEAD:main --force-with-lease
