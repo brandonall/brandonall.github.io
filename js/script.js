@@ -3,104 +3,123 @@ document.addEventListener('DOMContentLoaded', () => {
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
     const themeBtn = document.getElementById('themeBtn');
+    const audioSource = document.getElementById('audioSource');
 
     // Set today's date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Load readings for December 22, 2025
+    // Today's audio (update this line daily)
+    const dailyAudioSrc = 'audio/ElevenLabs_2025-12-23T17_44_00_Brian_eleven_v3.mp3';
+
+    // Set audio source
+    if (audioSource) {
+        audioSource.src = dailyAudioSrc;
+        document.querySelector('audio').load();
+    }
+
+    // Load readings for December 23, 2025
     function loadReadings() {
         const html = `
-            <h3>Monday of the Fourth Week of Advent</h3>
+            <h3>Tuesday of the Fourth Week of Advent</h3>
             
             <div class="reading">
-                <h4>Reading 1: 1 Samuel 1:24-28</h4>
-                <p>In those days,<br>
-                Hannah brought Samuel with her,<br>
-                along with a three-year-old bull,<br>
-                an ephah of flour, and a skin of wine,<br>
-                and presented him at the temple of the LORD in Shiloh.<br>
-                After the boy’s father had sacrificed the young bull,<br>
-                Hannah, his mother, approached Eli and said:<br>
-                “Pardon, my lord!<br>
-                As you live, my lord,<br>
-                I am the woman who stood near you here, praying to the LORD.<br>
-                I prayed for this child, and the LORD granted my request.<br>
-                Now I, in turn, give him to the LORD;<br>
-                as long as he lives, he shall be dedicated to the LORD.”<br>
-                She left Samuel there.</p>
+                <h4>Reading 1: Malachi 3:1-4, 23-24</h4>
+                <p>Thus says the Lord GOD:<br>
+                Lo, I am sending my messenger<br>
+                to prepare the way before me;<br>
+                And suddenly there will come to the temple<br>
+                the LORD whom you seek,<br>
+                And the messenger of the covenant whom you desire.<br>
+                Yes, he is coming, says the LORD of hosts.<br>
+                But who will endure the day of his coming?<br>
+                And who can stand when he appears?<br>
+                For he is like the refiner’s fire,<br>
+                or like the fuller’s lye.<br>
+                He will sit refining and purifying silver,<br>
+                and he will purify the sons of Levi,<br>
+                Refining them like gold or like silver<br>
+                that they may offer due sacrifice to the LORD.<br>
+                Then the sacrifice of Judah and Jerusalem<br>
+                will please the LORD,<br>
+                as in the days of old, as in years gone by.<br><br>
+                
+                Lo, I will send you<br>
+                Elijah, the prophet,<br>
+                Before the day of the LORD comes,<br>
+                the great and terrible day,<br>
+                To turn the hearts of the fathers to their children,<br>
+                and the hearts of the children to their fathers,<br>
+                Lest I come and strike the land with doom.</p>
             </div>
             
             <div class="reading">
-                <h4>Responsorial Psalm: 1 Samuel 2:1, 4-5, 6-7, 8abcd</h4>
-                <p>“My heart exults in the LORD,<br>
-                my horn is exalted in my God.<br>
-                I have swallowed up my enemies;<br>
-                I rejoice in my victory.”<br><br>
-                
-                “The bows of the mighty are broken,<br>
-                while the tottering gird on strength.<br>
-                The well-fed hire themselves out for bread,<br>
-                while the hungry batten on spoil.<br>
-                The barren wife bears seven sons,<br>
-                while the mother of many languishes.”<br><br>
-                
-                “The LORD puts to death and gives life;<br>
-                he casts down to the nether world;<br>
-                he raises up again.<br>
-                The LORD makes poor and makes rich,<br>
-                he humbles, he also exalts.”<br><br>
-                
-                “He raises the needy from the dust;<br>
-                from the dung heap he lifts up the poor,<br>
-                To seat them with nobles<br>
-                and make a glorious throne their heritage.”</p>
+                <h4>Responsorial Psalm: Psalm 25:4-5ab, 8-9, 10 and 14</h4>
+                <p>R. Teach me your paths, O Lord.<br><br>
+                Your ways, O LORD, make known to me;<br>
+                teach me your paths,<br>
+                Guide me in your truth and teach me,<br>
+                for you are God my savior.<br><br>
+                R. Teach me your paths, O Lord.<br><br>
+                Good and upright is the LORD;<br>
+                thus he shows sinners the way.<br>
+                He guides the humble to justice,<br>
+                he teaches the humble his way.<br><br>
+                R. Teach me your paths, O Lord.<br><br>
+                All the paths of the LORD are kindness and constancy<br>
+                toward those who keep his covenant and his decrees.<br>
+                The friendship of the LORD is with those who fear him,<br>
+                and his covenant, for their instruction.<br><br>
+                R. Teach me your paths, O Lord.</p>
             </div>
             
             <div class="reading">
                 <h4>Alleluia</h4>
-                <p>O King of all nations and keystone of the Church;<br>
-                come and save man, whom you formed from the dust!</p>
+                <p>O Radiant Dawn,<br>
+                splendor of eternal light and sun of justice:<br>
+                come and shine on those who sit in darkness<br>
+                and in the shadow of death.</p>
             </div>
             
             <div class="reading">
-                <h4>Gospel: Luke 1:46-56</h4>
-                <p>Mary said:<br>
-                “My soul proclaims the greatness of the Lord;<br>
-                my spirit rejoices in God my savior.<br>
-                for he has looked upon his lowly servant.<br>
-                From this day all generations will call me blessed:<br>
-                the Almighty has done great things for me,<br>
-                and holy is his Name.<br>
-                He has mercy on those who fear him<br>
-                in every generation.<br>
-                He has shown the strength of his arm,<br>
-                and has scattered the proud in their conceit.<br>
-                He has cast down the mighty from their thrones<br>
-                and has lifted up the lowly.<br>
-                He has filled the hungry with good things,<br>
-                and the rich he has sent away empty.<br>
-                He has come to the help of his servant Israel<br>
-                for he remembered his promise of mercy,<br>
-                the promise he made to our fathers,<br>
-                to Abraham and his children for ever.”<br>
-                Mary remained with Elizabeth about three months<br>
-                and then returned to her home.</p>
+                <h4>Gospel: Luke 1:57-66</h4>
+                <p>When the time arrived for Elizabeth to have her child<br>
+                she gave birth to a son.<br>
+                Her neighbors and relatives heard<br>
+                that the Lord had shown his great mercy toward her,<br>
+                and they rejoiced with her.<br>
+                When they came on the eighth day to circumcise the child,<br>
+                they were going to call him Zechariah after his father,<br>
+                but his mother said in reply,<br>
+                “No. He will be called John.”<br>
+                But they answered her,<br>
+                “There is no one among your relatives who has this name.”<br>
+                So they made signs, asking his father what he wished him to be called.<br>
+                He asked for a tablet and wrote, “John is his name,”<br>
+                and all were amazed.<br>
+                Immediately his mouth was opened, his tongue freed,<br>
+                and he spoke blessing God.<br>
+                Then fear came upon all their neighbors,<br>
+                and all these matters were discussed<br>
+                throughout the hill country of Judea.<br>
+                All who heard these things took them to heart, saying,<br>
+                “What, then, will this child be?”<br>
+                For surely the hand of the Lord was with him.</p>
             </div>
         `;
 
         readingsContent.innerHTML = html;
     }
 
-    // Reflection questions
+    // Reflection questions for today
     function loadQuestions() {
         const questions = [
-            "Hannah dedicated Samuel to the Lord in gratitude for answered prayers. What gifts or blessings in my life am I called to offer back to God?",
-            "Mary's Magnificat proclaims God's mercy and justice. How do I see God lifting up the lowly and scattering the proud in my own experience?",
-            "Hannah was once barren, but God blessed her. Where have I experienced God's fruitfulness after a time of waiting or emptiness?",
-            "Mary rejoices that 'all generations will call me blessed.' How does this invite me to honor Mary's role in salvation history?",
-            "The psalm speaks of God raising the needy from the dust. What attitudes of pride or humility is God challenging in me today?",
-            "Both Hannah and Mary give everything to God. What is one way I can surrender more fully to His will this Advent?"
+            "The Lord promises to send a messenger to prepare the way. How is God preparing my heart this Advent for His coming?",
+            "Malachi speaks of God as a refiner’s fire. What impurities in my life might God be inviting me to let Him purify?",
+            "The psalm asks God to teach us His paths. What path is God showing me today, and how can I follow it more closely?",
+            "The birth of John the Baptist brings joy and wonder. Where in my life am I experiencing God's mercy and new beginnings?",
+            "Zechariah's tongue is freed when he obeys God. How does obedience to God's word bring freedom in my own life?",
+            "The people wonder, 'What, then, will this child be?' What great things might God be calling me to in the future?"
         ];
 
         questionsList.innerHTML = '';
