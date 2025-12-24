@@ -1,86 +1,51 @@
-/* Light mode (default) */
-:root {
-    --bg: #f8f9fa;
-    --card-bg: white;
-    --text: #333;
-    --accent: #1e88e5;
-    --accent-dark: #1565c0;
-    --subtle: #d81b60;
-    --shadow: 0 4px 15px rgba(0,0,0,0.08);
-    --gradient-start: #e3f2fd;
-    --gradient-end: #bbdefb;
-    --border-radius: 12px;
-}
-
-/* Dark mode */
-[data-theme="dark"] {
-    --bg: #0d1117;
-    --card-bg: #161b22;
-    --text: #c9d1d9;
-    --accent: #58a6ff;
-    --accent-dark: #388bfd;
-    --subtle: #ff79c6;
-    --shadow: 0 4px 15px rgba(0,0,0,0.4);
-    --gradient-start: #0d1117;
-    --gradient-end: #21262d;
-}
-
 body {
     font-family: 'Georgia', serif;
     max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
-    background: var(--bg);
-    color: var(--text);
+    padding: 20px;  /* 20px all around - controls side/top/bottom gaps */
+    background: #f8f9fa;
+    color: #333;
     line-height: 1.7;
-    transition: background 0.4s, color 0.4s;
 }
 
 header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;  /* Matches section spacing */
     padding: 20px;
-    background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
+    background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 h1 {
     margin: 0;
-    color: var(--accent);
+    color: #1e88e5;
 }
 
 .subtitle {
     font-style: italic;
-    color: #888;
+    color: #555;
 }
 
 .date {
     font-size: 1.2em;
     font-weight: bold;
-    color: var(--subtle);
+    color: #d81b60;
 }
 
-/* Wrapper for even spacing between sections */
-.content-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;  /* Even space between all sections */
-    margin-bottom: 40px;  /* Space to footer */
-}
-
-.readings-container, .questions-container, .audio-container {
-    background: var(--card-bg);
+.readings-container,
+.questions-container,
+.audio-container {
+    background: white;
     padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    transition: background 0.4s, box-shadow 0.4s;
-    margin: 0;  /* No extra margins - gap from wrapper handles spacing */
+    margin: 20px 0;  /* 20px top/bottom - even with body padding */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
 h2 {
-    color: var(--accent);
-    border-bottom: 2px solid rgba(30, 136, 229, 0.2);
+    color: #1e88e5;
+    border-bottom: 2px solid #bbdefb;
     padding-bottom: 10px;
 }
 
@@ -89,7 +54,7 @@ h2 {
 }
 
 .reading h4 {
-    color: var(--subtle);
+    color: #d81b60;
     margin-bottom: 10px;
 }
 
@@ -99,10 +64,10 @@ h2 {
 }
 
 #questions-list li {
-    background: rgba(30, 136, 229, 0.1);
+    background: #e3f2fd;
     padding: 15px;
     margin-bottom: 15px;
-    border-left: 5px solid var(--accent);
+    border-left: 5px solid #1e88e5;
     border-radius: 8px;
     font-size: 1.1em;
 }
@@ -110,7 +75,7 @@ h2 {
 .source {
     font-style: italic;
     text-align: right;
-    color: #888;
+    color: #666;
 }
 
 .audio-container {
@@ -120,34 +85,37 @@ h2 {
 audio {
     width: 100%;
     margin: 20px 0;
-    background: var(--card-bg);
-    border-radius: var(--border-radius);
 }
 
-/* Theme toggle */
+/* Theme toggle button */
 .theme-toggle {
     text-align: center;
     margin: 20px 0;
 }
 
 #themeBtn {
-    background: var(--accent);
+    background: #1e88e5;
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 30px;
+    border-radius: 30px;  /* Restored rounded shape */
     cursor: pointer;
     font-size: 1em;
     transition: background 0.3s;
 }
 
 #themeBtn:hover {
-    background: var(--accent-dark);
+    background: #1565c0;
 }
 
+/* Footer - centered */
 footer {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 20px;  /* Matches section spacing */
     color: #888;
     font-size: 0.9em;
+}
+
+footer p {
+    margin: 5px 0;  /* Even spacing between footer lines */
 }
