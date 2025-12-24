@@ -2,75 +2,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateEl = document.getElementById('date');
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
-    const themeBtn = document.getElementById('themeBtn');
     const audioSource = document.getElementById('audioSource');
 
     // Set today's date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Today's audio (update this line daily)
-    const dailyAudioSrc = 'audio/ElevenLabs_2025-12-23T17_44_00_Brian_eleven_v3.mp3';
+    // Today's audio file (update this line each day)
+    const dailyAudioSrc = 'audio/ElevenLabs_2025-12-24T12_15_38_Brian_eleven_v3.mp3';
 
-    // Set audio source
+    // Set audio source dynamically
     if (audioSource) {
         audioSource.src = dailyAudioSrc;
         document.querySelector('audio').load();
     }
 
-    // Load readings for December 23, 2025
+    // Load readings for December 24, 2025 – Christmas Eve
     function loadReadings() {
         const html = `
-            <h3>Tuesday of the Fourth Week of Advent</h3>
+            <h3>Christmas Eve</h3>
             
             <div class="reading">
-                <h4>Reading 1: Malachi 3:1-4, 23-24</h4>
-                <p>Thus says the Lord GOD:<br>
-                Lo, I am sending my messenger<br>
-                to prepare the way before me;<br>
-                And suddenly there will come to the temple<br>
-                the LORD whom you seek,<br>
-                And the messenger of the covenant whom you desire.<br>
-                Yes, he is coming, says the LORD of hosts.<br>
-                But who will endure the day of his coming?<br>
-                And who can stand when he appears?<br>
-                For he is like the refiner’s fire,<br>
-                or like the fuller’s lye.<br>
-                He will sit refining and purifying silver,<br>
-                and he will purify the sons of Levi,<br>
-                Refining them like gold or like silver<br>
-                that they may offer due sacrifice to the LORD.<br>
-                Then the sacrifice of Judah and Jerusalem<br>
-                will please the LORD,<br>
-                as in the days of old, as in years gone by.<br><br>
-                
-                Lo, I will send you<br>
-                Elijah, the prophet,<br>
-                Before the day of the LORD comes,<br>
-                the great and terrible day,<br>
-                To turn the hearts of the fathers to their children,<br>
-                and the hearts of the children to their fathers,<br>
-                Lest I come and strike the land with doom.</p>
+                <h4>Reading 1: 2 Samuel 7:1-5, 8b-12, 14a, 16</h4>
+                <p>When King David was settled in his palace,<br>
+                and the LORD had given him rest from his enemies on every side,<br>
+                he said to Nathan the prophet,<br>
+                “Here I am living in a house of cedar,<br>
+                while the ark of God dwells in a tent!”<br>
+                Nathan answered the king,<br>
+                “Go, do whatever you have in mind,<br>
+                for the LORD is with you.”<br>
+                But that night the LORD spoke to Nathan and said:<br>
+                “Go, tell my servant David, ‘Thus says the LORD:<br>
+                Should you build me a house to dwell in?<br>
+                I took you from the pasture, from following the sheep,<br>
+                to be commander of my people Israel.<br>
+                I have been with you wherever you went,<br>
+                and I have destroyed all your enemies before you.<br>
+                I will fix a place for my people Israel;<br>
+                I will plant them so that they may dwell in their place<br>
+                without further disturbance.<br>
+                Neither shall the wicked continue to afflict them as they did of old,<br>
+                since the time I first appointed judges over my people Israel.<br>
+                I will give you rest from all your enemies.<br>
+                The LORD also reveals to you<br>
+                that he will establish a house for you.<br>
+                I will raise up your heir after you, sprung from your loins,<br>
+                and I will make firm his kingdom.<br>
+                I will be a father to him,<br>
+                and he shall be a son to me.<br>
+                Your house and your kingdom shall endure forever before me;<br>
+                your throne shall stand firm forever.’”</p>
             </div>
             
             <div class="reading">
-                <h4>Responsorial Psalm: Psalm 25:4-5ab, 8-9, 10 and 14</h4>
-                <p>R. Teach me your paths, O Lord.<br><br>
-                Your ways, O LORD, make known to me;<br>
-                teach me your paths,<br>
-                Guide me in your truth and teach me,<br>
-                for you are God my savior.<br><br>
-                R. Teach me your paths, O Lord.<br><br>
-                Good and upright is the LORD;<br>
-                thus he shows sinners the way.<br>
-                He guides the humble to justice,<br>
-                he teaches the humble his way.<br><br>
-                R. Teach me your paths, O Lord.<br><br>
-                All the paths of the LORD are kindness and constancy<br>
-                toward those who keep his covenant and his decrees.<br>
-                The friendship of the LORD is with those who fear him,<br>
-                and his covenant, for their instruction.<br><br>
-                R. Teach me your paths, O Lord.</p>
+                <h4>Responsorial Psalm: Psalm 89:2-3, 4-5, 27 and 29</h4>
+                <p>R. Forever I will sing the goodness of the Lord.<br><br>
+                The favors of the LORD I will sing forever;<br>
+                through all generations my mouth shall proclaim your faithfulness.<br>
+                For you have said, “My kindness is established forever”;<br>
+                in heaven you have confirmed your faithfulness.<br><br>
+                R. Forever I will sing the goodness of the Lord.<br><br>
+                “I have made a covenant with my chosen one,<br>
+                I have sworn to David my servant:<br>
+                Forever will I confirm your posterity<br>
+                and establish your throne for all generations.”<br><br>
+                R. Forever I will sing the goodness of the Lord.<br><br>
+                “He shall say of me, ‘You are my father,<br>
+                my God, the rock, my savior.’<br>
+                Forever I will maintain my kindness toward him,<br>
+                and establish my covenant with him.”<br><br>
+                R. Forever I will sing the goodness of the Lord.</p>
             </div>
             
             <div class="reading">
@@ -82,29 +84,30 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             
             <div class="reading">
-                <h4>Gospel: Luke 1:57-66</h4>
-                <p>When the time arrived for Elizabeth to have her child<br>
-                she gave birth to a son.<br>
-                Her neighbors and relatives heard<br>
-                that the Lord had shown his great mercy toward her,<br>
-                and they rejoiced with her.<br>
-                When they came on the eighth day to circumcise the child,<br>
-                they were going to call him Zechariah after his father,<br>
-                but his mother said in reply,<br>
-                “No. He will be called John.”<br>
-                But they answered her,<br>
-                “There is no one among your relatives who has this name.”<br>
-                So they made signs, asking his father what he wished him to be called.<br>
-                He asked for a tablet and wrote, “John is his name,”<br>
-                and all were amazed.<br>
-                Immediately his mouth was opened, his tongue freed,<br>
-                and he spoke blessing God.<br>
-                Then fear came upon all their neighbors,<br>
-                and all these matters were discussed<br>
-                throughout the hill country of Judea.<br>
-                All who heard these things took them to heart, saying,<br>
-                “What, then, will this child be?”<br>
-                For surely the hand of the Lord was with him.</p>
+                <h4>Gospel: Luke 1:67-79</h4>
+                <p>Zechariah his father, filled with the Holy Spirit, prophesied, saying:<br>
+                “Blessed be the Lord, the God of Israel;<br>
+                for he has come to his people and set them free.<br>
+                He has raised up for us a mighty savior,<br>
+                born of the house of his servant David.<br>
+                Through his prophets he promised of old<br>
+                that he would save us from our enemies,<br>
+                from the hands of all who hate us.<br>
+                He promised to show mercy to our fathers<br>
+                and to remember his holy covenant.<br>
+                This was the oath he swore to our father Abraham:<br>
+                to set us free from the hand of our enemies,<br>
+                free to worship him without fear,<br>
+                holy and righteous in his sight<br>
+                all the days of our life.<br>
+                You, my child, shall be called the prophet of the Most High,<br>
+                for you will go before the Lord to prepare his way,<br>
+                to give his people knowledge of salvation<br>
+                by the forgiveness of their sins.<br>
+                In the tender compassion of our God<br>
+                the dawn from on high shall break upon us,<br>
+                to shine on those who dwell in darkness and the shadow of death,<br>
+                and to guide our feet into the way of peace.”</p>
             </div>
         `;
 
@@ -114,12 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reflection questions for today
     function loadQuestions() {
         const questions = [
-            "The Lord promises to send a messenger to prepare the way. How is God preparing my heart this Advent for His coming?",
-            "Malachi speaks of God as a refiner’s fire. What impurities in my life might God be inviting me to let Him purify?",
-            "The psalm asks God to teach us His paths. What path is God showing me today, and how can I follow it more closely?",
-            "The birth of John the Baptist brings joy and wonder. Where in my life am I experiencing God's mercy and new beginnings?",
-            "Zechariah's tongue is freed when he obeys God. How does obedience to God's word bring freedom in my own life?",
-            "The people wonder, 'What, then, will this child be?' What great things might God be calling me to in the future?"
+            "David wanted to build a house for God, but God promised to build a house for David. How does God often turn our plans around to give us something greater?",
+            "The psalm sings of God's eternal covenant with David. How do I see God's faithfulness and promises at work in my own life?",
+            "Zechariah's prophecy praises God for raising up a savior. In what ways has God brought salvation or freedom to me this Advent?",
+            "The Benedictus speaks of guiding our feet into the way of peace. What steps can I take today to walk more closely in God's path of peace?",
+            "God promises to be a father to His people. How can I open my heart more to God's fatherly love and care?",
+            "The dawn from on high shall break upon us. What darkness in my life is God inviting me to let His light shine into this Christmas?"
         ];
 
         questionsList.innerHTML = '';
