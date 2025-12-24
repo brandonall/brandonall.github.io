@@ -18,25 +18,27 @@
         </div>
     </header>
 
-    <section class="audio-container">
-        <h2>Listen to Today's Readings</h2>
-        <audio controls preload="metadata" playsinline>
-            <source id="audioSource" src="audio/ElevenLabs_2025-12-23T17_44_00_Brian_eleven_v3.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <p class="audio-note">Voice by ElevenLabs (Brian)</p>
-    </section>
+    <div class="content-wrapper">
+        <section class="audio-container">
+            <h2>Listen to Today's Readings</h2>
+            <audio controls preload="metadata" playsinline>
+                <source id="audioSource" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p class="audio-note">Voice by ElevenLabs (Brian)</p>
+        </section>
 
-    <section id="readings" class="readings-container">
-        <h2>Today's Readings</h2>
-        <div id="readings-content"></div>
-        <p class="source">Readings from <a href="https://bible.usccb.org" target="_blank">USCCB.org</a></p>
-    </section>
+        <section id="readings" class="readings-container">
+            <h2>Today's Readings</h2>
+            <div id="readings-content"></div>
+            <p class="source">Readings from <a href="https://bible.usccb.org" target="_blank">USCCB.org</a></p>
+        </section>
 
-    <section class="questions-container">
-        <h2>Reflection Questions</h2>
-        <ul id="questions-list"></ul>
-    </section>
+        <section class="questions-container">
+            <h2>Reflection Questions</h2>
+            <ul id="questions-list"></ul>
+        </section>
+    </div>
 
     <footer>
         <p><a href="https://github.com/brandonall/brandonall.github.io">GitHub Repository</a></p>
