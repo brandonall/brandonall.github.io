@@ -3,20 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
     const themeBtn = document.getElementById('themeBtn');
-    const audioSource = document.getElementById('audioSource');
 
     // Set today's date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-    // Today's audio file (update this line each day with the new filename)
-    const dailyAudioSrc = 'audio/ElevenLabs_2025-12-25Txx_xx_xx_Brian_eleven_v3.mp3';  // Replace xx_xx_xx with actual timestamp
-
-    // Set audio source dynamically
-    if (audioSource) {
-        audioSource.src = dailyAudioSrc;
-        document.querySelector('audio').load();
-    }
 
     // Load readings for December 25, 2025 – Christmas Day (Mass During the Day)
     function loadReadings() {
@@ -165,4 +155,30 @@ document.addEventListener('DOMContentLoaded', () => {
             "The psalm calls all nations to see God's salvation. How can I share the joy of Christ's birth with others this season?",
             "Hebrews describes Jesus as the exact imprint of God's being. In what ways do I see God's nature reflected in Jesus' life and actions?",
             "The light shines in the darkness, and the darkness has not overcome it. What darkness in my life is God inviting His light to overcome this Christmas?",
-            "The Gospel ends with 'grace
+            "The Gospel ends with 'grace and truth came through Jesus Christ.' How can I embrace both grace and truth more deeply in my daily walk with God?"
+        ];
+
+        questionsList.innerHTML = '';
+        questions.forEach(q => {
+            const li = document.createElement('li');
+            li.textContent = q;
+            questionsList.appendChild(li);
+        });
+    }
+
+    // Theme toggle
+    themeBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            themeBtn.textContent = 'Dark Mode';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeBtn.textContent = 'Light Mode';
+        }
+    });
+
+    // Load content
+    loadReadings();
+    loadQuestions();
+});
