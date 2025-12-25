@@ -2,22 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateEl = document.getElementById('date');
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
-    const themeBtnHeader = document.getElementById('themeBtnHeader');
-    const themeIconHeader = document.getElementById('themeIconHeader');
-    const audioSource = document.getElementById('audioSource');
+    const themeBtn = document.getElementById('themeBtn');
 
     // Set today's date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-    // Today's audio file (update this line each day)
-    const dailyAudioSrc = 'audio/ElevenLabs_2025-12-24T12_15_38_Brian_eleven_v3.mp3';
-
-    // Set audio source dynamically
-    if (audioSource) {
-        audioSource.src = dailyAudioSrc;
-        document.querySelector('audio').load();
-    }
 
     // Load readings for December 24, 2025 – Christmas Eve
     function loadReadings() {
@@ -135,10 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Theme toggle (main button in header)
+    // Theme toggle
     themeBtn.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        if (isDark) {
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
             document.documentElement.removeAttribute('data-theme');
             themeBtn.textContent = 'Dark Mode';
         } else {
