@@ -16,11 +16,6 @@
             transition: background 0.4s, color 0.4s;
         }
 
-        [data-theme="dark"] body {
-            background: #0d1117;
-            color: #c9d1d9;
-        }
-
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -28,29 +23,11 @@
             background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: background 0.4s;
-        }
-
-        [data-theme="dark"] header {
-            background: linear-gradient(to bottom, #0d1117, #21262d);
         }
 
         h1 {
             margin: 0;
             color: #1e88e5;
-        }
-
-        [data-theme="dark"] h1 {
-            color: #58a6ff;
-        }
-
-        .subtitle {
-            font-style: italic;
-            color: #555;
-        }
-
-        [data-theme="dark"] .subtitle {
-            color: #888;
         }
 
         .date-container {
@@ -62,7 +39,7 @@
             font-size: 1.2em;
             font-weight: bold;
             color: #d81b60;
-            background: transparent; /* Transparent - no white square */
+            background: transparent;
         }
 
         .arrow {
@@ -72,15 +49,15 @@
             border-bottom: 18px solid transparent;
             cursor: pointer;
             transition: border-color 0.2s;
-            background: transparent; /* No background */
+            background: transparent;
         }
 
         .arrow.prev {
-            border-right: 30px solid #1e88e5; /* Left arrow */
+            border-right: 30px solid #1e88e5;
         }
 
         .arrow.next {
-            border-left: 30px solid #1e88e5; /* Right arrow */
+            border-left: 30px solid #1e88e5;
         }
 
         .arrow:hover.prev {
@@ -91,12 +68,10 @@
             border-left-color: #1565c0;
         }
 
-        .arrow:disabled.prev {
+        .arrow:disabled {
             border-right-color: #ccc;
-        }
-
-        .arrow:disabled.next {
             border-left-color: #ccc;
+            cursor: not-allowed;
         }
 
         .section {
@@ -105,23 +80,12 @@
             margin: 20px 0;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: background 0.4s;
-        }
-
-        [data-theme="dark"] .section {
-            background: #161b22;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
         h2 {
             color: #1e88e5;
             border-bottom: 2px solid #bbdefb;
             padding-bottom: 10px;
-        }
-
-        [data-theme="dark"] h2 {
-            color: #58a6ff;
-            border-bottom: 2px solid #388bfd;
         }
 
         .reading {
@@ -131,10 +95,6 @@
         .reading h4 {
             color: #d81b60;
             margin-bottom: 10px;
-        }
-
-        [data-theme="dark"] .reading h4 {
-            color: #ff79c6;
         }
 
         #questions-list {
@@ -150,19 +110,10 @@
             border-radius: 8px;
         }
 
-        [data-theme="dark"] #questions-list li {
-            background: rgba(88, 166, 255, 0.1);
-            border-left: 5px solid #58a6ff;
-        }
-
         .source {
             font-style: italic;
             text-align: right;
             color: #666;
-        }
-
-        [data-theme="dark"] .source {
-            color: #888;
         }
 
         footer {
@@ -170,10 +121,6 @@
             margin-top: 50px;
             color: #888;
             font-size: 0.9em;
-        }
-
-        [data-theme="dark"] footer {
-            color: #888;
         }
 
         footer p {
@@ -199,6 +146,51 @@
 
         #themeBtn:hover {
             background: #1565c0;
+        }
+
+        /* Dark mode adjustments */
+        [data-theme="dark"] body {
+            background: #0d1117;
+            color: #c9d1d9;
+        }
+
+        [data-theme="dark"] header {
+            background: linear-gradient(to bottom, #0d1117, #21262d);
+        }
+
+        [data-theme="dark"] h1 {
+            color: #58a6ff;
+        }
+
+        [data-theme="dark"] .subtitle {
+            color: #888;
+        }
+
+        [data-theme="dark"] .date {
+            color: #ff79c6;
+        }
+
+        [data-theme="dark"] .section {
+            background: #161b22;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        [data-theme="dark"] h2 {
+            color: #58a6ff;
+            border-bottom: 2px solid #388bfd;
+        }
+
+        [data-theme="dark"] .reading h4 {
+            color: #ff79c6;
+        }
+
+        [data-theme="dark"] #questions-list li {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 5px solid #58a6ff;
+        }
+
+        [data-theme="dark"] .source {
+            color: #888;
         }
     </style>
 </head>
@@ -580,7 +572,7 @@
         ];
 
         function loadContent() {
-            const day = days[currentOffset + 1]; // -1 → index 0, 0 → 1, +1 → 2
+            const day = days[currentOffset + 1];
             dateEl.textContent = day.date;
             document.querySelector('#readings h2').textContent = day.title;
             document.getElementById('readings-content').innerHTML = day.readings;
@@ -604,6 +596,17 @@
         nextBtn.addEventListener('click', () => {
             currentOffset++;
             loadContent();
+        });
+
+        // Theme toggle
+        themeBtn.addEventListener('click', () => {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                themeBtn.textContent = 'Dark Mode';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = 'Light Mode';
+            }
         });
 
         // Initial load (today)
