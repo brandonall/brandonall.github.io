@@ -3,10 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
     const themeBtn = document.getElementById('themeBtn');
+    const audioSource = document.getElementById('audioSource');
 
     // Set today's date
     const today = new Date();
     dateEl.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Today's audio file (update this line each day)
+    const dailyAudioSrc = 'audio/ElevenLabs_2025-12-24T12_15_38_Brian_eleven_v3.mp3';
+
+    // Set audio source dynamically
+    if (audioSource) {
+        audioSource.src = dailyAudioSrc;
+        document.querySelector('audio').load();
+    }
 
     // Load readings for December 24, 2025 – Christmas Eve
     function loadReadings() {
