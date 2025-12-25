@@ -148,7 +148,6 @@
         const nextBtn = document.getElementById('nextBtn');
 
         let currentDate = new Date();
-        const today = new Date();
 
         // Format date as YYYY-MM-DD
         function formatDate(d) {
@@ -161,12 +160,13 @@
         // Display formatted date
         function updateDateDisplay() {
             dateEl.textContent = currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            prevBtn.disabled = currentDate.toDateString() === today.toDateString();
-            nextBtn.disabled = currentDate.toDateString() === today.toDateString();
+            prevBtn.disabled = currentDate.toDateString() === new Date().toDateString();
+            nextBtn.disabled = currentDate.toDateString() === new Date().toDateString();
         }
 
         // Fetch readings from API
         async function fetchReadings(date) {
+            readingsContent.innerHTML = 'Loading...';
             const apiUrl = `https://readings.catholicapi.com/daily?date=${date}`;
             try {
                 const response = await fetch(apiUrl);
@@ -180,11 +180,11 @@
 
                 readingsContent.innerHTML = html;
             } catch (err) {
-                readingsContent.innerHTML = '<p>Error loading readings. Please refresh.</p>';
+                readingsContent.innerHTML = '<p>Error loading readings. Please try again.</p>';
             }
         }
 
-        // Generate reflection questions (using a simple placeholder - replace with real Grok call later)
+        // Placeholder reflection questions
         function loadQuestions() {
             const questions = [
                 "How does today's Scripture speak to your heart?",
