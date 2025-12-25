@@ -1,30 +1,136 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Catholic Readings & Reflection</title>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: Georgia, serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
+            border-radius: 12px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #1e88e5;
+        }
+
+        .date-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #d81b60;
+        }
+
+        .arrow {
+            background: #1e88e5;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.4em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .arrow:hover {
+            background: #1565c0;
+        }
+
+        .arrow:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #1e88e5;
+            border-bottom: 2px solid #bbdefb;
+            padding-bottom: 10px;
+        }
+
+        .reading {
+            margin-bottom: 30px;
+        }
+
+        .reading h4 {
+            color: #d81b60;
+            margin-bottom: 10px;
+        }
+
+        #questions-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #questions-list li {
+            background: #e3f2fd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #1e88e5;
+            border-radius: 8px;
+        }
+
+        .source {
+            font-style: italic;
+            text-align: right;
+            color: #666;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Daily Mass Readings</h1>
-        <p id="date" class="date"></p>
-        <p class="subtitle">A simple place to read and reflect on today's Scripture</p>
-
-        <!-- Theme toggle -->
-        <div class="theme-toggle">
-            <button id="themeBtn">Dark Mode</button>
+        <h1>Daily Catholic Readings</h1>
+        <div class="date-container">
+            <button class="arrow" id="prevBtn">&lt;</button>
+            <span id="date"></span>
+            <button class="arrow" id="nextBtn">&gt;</button>
         </div>
+        <p class="subtitle">A simple place to read and reflect on Scripture</p>
     </header>
 
-    <section id="readings" class="readings-container">
+    <section class="section" id="readings">
         <h2>Today's Readings</h2>
-        <div id="readings-content"></div>
+        <div id="readings-content">Loading...</div>
         <p class="source">Readings from <a href="https://bible.usccb.org" target="_blank">USCCB.org</a></p>
     </section>
 
-    <section class="questions-container">
+    <section class="section">
         <h2>Reflection Questions</h2>
         <ul id="questions-list"></ul>
     </section>
@@ -34,6 +140,90 @@
         <p style="font-size: 0.8em; color: #888; font-style: italic; margin-top: 20px;">for Frances ♡</p>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script>
+        const dateEl = document.getElementById('date');
+        const readingsContent = document.getElementById('readings-content');
+        const questionsList = document.getElementById('questions-list');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let currentDate = new Date();
+        const today = new Date();
+
+        // Format date as YYYY-MM-DD
+        function formatDate(d) {
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `\( {year}- \){month}-${day}`;
+        }
+
+        // Display formatted date
+        function updateDateDisplay() {
+            dateEl.textContent = currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            prevBtn.disabled = currentDate.toDateString() === today.toDateString();
+            nextBtn.disabled = currentDate.toDateString() === today.toDateString();
+        }
+
+        // Fetch readings from API
+        async function fetchReadings(date) {
+            const apiUrl = `https://readings.catholicapi.com/daily?date=${date}`;
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('API error');
+                const data = await response.json();
+
+                let html = `<h3>${data.title || 'Daily Readings'}</h3>`;
+                data.readings.forEach(r => {
+                    html += `<div class="reading"><h4>\( {r.citation || r.type}</h4><p> \){r.text.replace(/\n/g, '<br>')}</p></div>`;
+                });
+
+                readingsContent.innerHTML = html;
+            } catch (err) {
+                readingsContent.innerHTML = '<p>Error loading readings. Please refresh.</p>';
+            }
+        }
+
+        // Generate reflection questions (using a simple placeholder - replace with real Grok call later)
+        function loadQuestions() {
+            const questions = [
+                "How does today's Scripture speak to your heart?",
+                "What is God inviting you to trust Him with today?",
+                "Where do you see God's presence in your life right now?",
+                "How can you respond to God's call more fully?",
+                "What fears is God asking you to release?",
+                "How can you prepare your heart for His coming?"
+            ];
+
+            questionsList.innerHTML = '';
+            questions.forEach(q => {
+                const li = document.createElement('li');
+                li.textContent = q;
+                questionsList.appendChild(li);
+            });
+        }
+
+        // Load content for current date
+        function loadContent() {
+            const formatted = formatDate(currentDate);
+            fetchReadings(formatted);
+            loadQuestions();
+            updateDateDisplay();
+        }
+
+        // Navigation buttons
+        prevBtn.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() - 1);
+            loadContent();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() + 1);
+            loadContent();
+        });
+
+        // Initial load
+        loadContent();
+    </script>
 </body>
 </html>
