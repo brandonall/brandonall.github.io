@@ -23,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch(`readings/${dateStr}.json`)
     .then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status} - File not found or inaccessible`);
+        throw new Error(`HTTP ${response.status} - File not found or inaccessible`);
       }
       return response.json();
     })
     .then(data => {
-      // Display readings (use readingContent if present, or fallback)
+      // Display readings
       readingsContent.innerHTML = data.readingContent || '<p>Readings content not available in JSON.</p>';
 
-      // Display questions from output.questions
+      // Display questions
       questionsList.innerHTML = '';
       if (data.output && Array.isArray(data.output.questions)) {
         data.output.questions.forEach(q => {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         questionsList.innerHTML = '<li>No questions found in JSON.</li>';
       }
 
-      // Optional: Display weekly review if present (for Sundays)
+      // Weekly review (if present)
       if (data.output && data.output.weeklyReview) {
         const weeklyDiv = document.createElement('div');
         weeklyDiv.innerHTML = `
