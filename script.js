@@ -1,16 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Script started running');
+  console.log('Script loaded and running');
 
   const dateEl = document.getElementById('date');
   const readingsContent = document.getElementById('readings-content');
   const questionsList = document.getElementById('questions-list');
   const themeBtn = document.getElementById('themeBtn');
-
-  if (!dateEl || !readingsContent || !questionsList || !themeBtn) {
-    console.error('CRITICAL: One or more DOM elements are missing. Check index.html IDs.');
-    readingsContent.innerHTML = '<p>Error: Page structure broken. Missing required elements.</p>';
-    return;
-  }
 
   // Get today's date in YYYY-MM-DD
   const today = new Date();
@@ -19,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const day = String(today.getDate()).padStart(2, '0');
   const dateStr = `\( {year}- \){month}-${day}`;
 
-  console.log('Calculated date string:', dateStr);
+  console.log('Today's date string:', dateStr);
 
   // Display formatted date
   dateEl.textContent = today.toLocaleDateString('en-US', {
@@ -31,25 +25,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch the JSON from repo
   const jsonUrl = `readings/${dateStr}.json`;
-  console.log('Attempting to fetch:', jsonUrl);
+  console.log('Fetching from:', jsonUrl);
 
-  fetch(jsonUrl)
+  fetch(jsonUrl, { cache: 'no-store' })  // Bypass cache
     .then(response => {
-      console.log('Fetch response status:', response.status);
+      console.log('Response status:', response.status);
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status} - ${response.statusText}. File may not exist or repo path is wrong.`);
+        throw new Error(`HTTP ${response.status} - ${response.statusText}. File may not exist or path is incorrect.`);
       }
       return response.json();
     })
     .then(data => {
-      console.log('JSON loaded successfully:', data);
+      console.log('JSON data loaded:', data);
 
       // Display readings
-      if (data.readingContent) {
-        readingsContent.innerHTML = data.readingContent;
-      } else {
-        readingsContent.innerHTML = '<p>Readings content missing from JSON (no "readingContent" key).</p>';
-      }
+      readingsContent.innerHTML = data.readingContent || '<p>No readingContent found in JSON.</p>';
 
       // Display questions
       questionsList.innerHTML = '';
@@ -60,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
           questionsList.appendChild(li);
         });
       } else {
-        questionsList.innerHTML = '<li>No questions found (missing "output.questions" array in JSON).</li>';
+        questionsList.innerHTML = '<li>No questions found (missing output.questions array).</li>';
       }
 
       // Weekly review (if present)
@@ -78,18 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     .catch(err => {
-      console.error('Fetch failed:', err.message);
+      console.error('Full fetch error:', err);
       readingsContent.innerHTML = `
         <p><strong>Error loading today's content:</strong> ${err.message}</p>
-        <p><strong>Expected file:</strong> readings/${dateStr}.json</p>
-        <p><strong>Possible causes:</strong></p>
+        <p><strong>Expected URL:</strong> https://brandonall.github.io/readings/${dateStr}.json</p>
+        <p><strong>Debug steps:</strong></p>
         <ul>
-          <li>The file doesn't exist in the repo yet (n8n may not have pushed it).</li>
-          <li>Wrong folder/path (check repo for exact location, e.g., data/ or root).</li>
-          <li>GitHub Pages cache delay (try incognito or wait 5-10 min).</li>
-          <li>Network issue (try mobile data vs Wi-Fi).</li>
+          <li>Open the URL above in a new tab — does it show JSON?</li>
+          <li>If 404: n8n may have pushed to a different folder (e.g., data/ or root). Check repo.</li>
+          <li>If blank/error: GitHub Pages delay — wait 5-10 min or hard refresh.</li>
+          <li>Try incognito mode or different network (Wi-Fi vs mobile data).</li>
         </ul>
-        <p><strong>Debug tip:</strong> Open https://brandonall.github.io/readings/${dateStr}.json directly in a new tab.</p>
       `;
     });
 
