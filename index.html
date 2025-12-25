@@ -147,10 +147,12 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
-        let currentDate = new Date();
+        let currentOffset = 0; // 0 = today, -1 = yesterday, +1 = tomorrow
 
         // Format date as YYYY-MM-DD
-        function formatDate(d) {
+        function formatDate(offset = 0) {
+            const d = new Date();
+            d.setDate(d.getDate() + offset);
             const year = d.getFullYear();
             const month = String(d.getMonth() + 1).padStart(2, '0');
             const day = String(d.getDate()).padStart(2, '0');
@@ -159,66 +161,90 @@
 
         // Display formatted date
         function updateDateDisplay() {
-            dateEl.textContent = currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            prevBtn.disabled = currentDate.toDateString() === new Date().toDateString();
-            nextBtn.disabled = currentDate.toDateString() === new Date().toDateString();
+            const d = new Date();
+            d.setDate(d.getDate() + currentOffset);
+            dateEl.textContent = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            prevBtn.disabled = currentOffset <= -1;
+            nextBtn.disabled = currentOffset >= 1;
         }
 
-        // Fetch readings from API
-        async function fetchReadings(date) {
-            readingsContent.innerHTML = 'Loading...';
-            const apiUrl = `https://readings.catholicapi.com/daily?date=${date}`;
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error('API error');
-                const data = await response.json();
-
-                let html = `<h3>${data.title || 'Daily Readings'}</h3>`;
-                data.readings.forEach(r => {
-                    html += `<div class="reading"><h4>\( {r.citation || r.type}</h4><p> \){r.text.replace(/\n/g, '<br>')}</p></div>`;
-                });
-
-                readingsContent.innerHTML = html;
-            } catch (err) {
-                readingsContent.innerHTML = '<p>Error loading readings. Please try again.</p>';
+        // Hard-coded readings and questions for 3 days
+        const content = {
+            '-1': { // Yesterday - Dec 24
+                title: "Christmas Eve",
+                readings: `
+                    <div class="reading">
+                        <h4>Reading 1: 2 Samuel 7:1-5, 8b-12, 14a, 16</h4>
+                        <p>When King David was settled in his palace...</p>
+                    </div>
+                    <!-- Add full text here as needed -->
+                `,
+                questions: [
+                    "David wanted to build a house for God... How does God turn our plans around?",
+                    "The psalm sings of God's covenant... How do I see His faithfulness?",
+                    // ... full 6 questions for Dec 24
+                ]
+            },
+            '0': { // Today - Dec 25
+                title: "The Nativity of the Lord – Christmas Day",
+                readings: `
+                    <div class="reading">
+                        <h4>Reading 1: Isaiah 52:7-10</h4>
+                        <p>How beautiful upon the mountains...</p>
+                    </div>
+                    <!-- Full Christmas Day readings here -->
+                `,
+                questions: [
+                    "The Word became flesh... How does the Incarnation make God's love real?",
+                    "Isaiah proclaims salvation... What glad tidings is God speaking to me?",
+                    "The psalm calls all nations... How can I share Christ's birth joy?",
+                    "Hebrews describes Jesus as God's imprint... How do I see God in Jesus?",
+                    "The light shines in darkness... What darkness needs God's light?",
+                    "Grace and truth came through Jesus... How can I embrace both?"
+                ]
+            },
+            '1': { // Tomorrow - Dec 26
+                title: "Feast of St. Stephen, First Martyr",
+                readings: `
+                    <div class="reading">
+                        <h4>Reading 1: Acts 6:8-10; 7:54-60</h4>
+                        <p>Stephen, full of grace and power...</p>
+                    </div>
+                    <!-- Full readings for Dec 26 -->
+                `,
+                questions: [
+                    "Stephen performed wonders... How is God calling me to use my gifts?",
+                    "The crowd stoned Stephen... Where is God asking me to forgive?",
+                    "Stephen saw Jesus standing... How can I fix my eyes on Jesus?",
+                    "The Church chose Stephen... What small acts of service can I do?",
+                    "Stephen's face shone... How does the Spirit transform me?",
+                    "Martyrs' blood is the seed... What daily sacrifices can I offer?"
+                ]
             }
-        }
+        };
 
-        // Placeholder reflection questions
-        function loadQuestions() {
-            const questions = [
-                "How does today's Scripture speak to your heart?",
-                "What is God inviting you to trust Him with today?",
-                "Where do you see God's presence in your life right now?",
-                "How can you respond to God's call more fully?",
-                "What fears is God asking you to release?",
-                "How can you prepare your heart for His coming?"
-            ];
+        function loadContent() {
+            const key = currentOffset.toString();
+            const dayData = content[key] || content['0']; // Fallback to today
 
+            dateEl.textContent = new Date(new Date().setDate(new Date().getDate() + currentOffset)).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            readingsContent.innerHTML = dayData.readings;
             questionsList.innerHTML = '';
-            questions.forEach(q => {
+            dayData.questions.forEach(q => {
                 const li = document.createElement('li');
                 li.textContent = q;
                 questionsList.appendChild(li);
             });
         }
 
-        // Load content for current date
-        function loadContent() {
-            const formatted = formatDate(currentDate);
-            fetchReadings(formatted);
-            loadQuestions();
-            updateDateDisplay();
-        }
-
-        // Navigation buttons
         prevBtn.addEventListener('click', () => {
-            currentDate.setDate(currentDate.getDate() - 1);
+            currentOffset--;
             loadContent();
         });
 
         nextBtn.addEventListener('click', () => {
-            currentDate.setDate(currentDate.getDate() + 1);
+            currentOffset++;
             loadContent();
         });
 
