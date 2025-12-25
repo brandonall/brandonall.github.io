@@ -12,11 +12,19 @@
         <p id="date" class="date"></p>
         <p class="subtitle">A simple place to read and reflect on today's Scripture</p>
 
-        <!-- Theme toggle -->
+        <!-- Theme toggle in header -->
         <div class="theme-toggle">
             <button id="themeBtn">Dark Mode</button>
         </div>
     </header>
+
+    <!-- Fixed top bar (appears after scroll) -->
+    <div class="fixed-top-bar" id="fixedBar">
+        <div class="bar-content">
+            <button id="themeToggleBar" class="icon-btn" aria-label="Toggle theme">🌙</button>
+            <button id="audioPlayPause" class="icon-btn" aria-label="Play/Pause audio">▶️</button>
+        </div>
+    </div>
 
     <div class="content-wrapper">
         <section class="audio-container">
