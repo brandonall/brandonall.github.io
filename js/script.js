@@ -2,12 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateEl = document.getElementById('date');
     const readingsContent = document.getElementById('readings-content');
     const questionsList = document.getElementById('questions-list');
-    const themeBtn = document.getElementById('themeBtn');
+    const themeBtnHeader = document.getElementById('themeBtnHeader');
+    const themeIconHeader = document.getElementById('themeIconHeader');
     const audioSource = document.getElementById('audioSource');
-    const fixedBar = document.getElementById('fixedBar');
-    const themeToggleBar = document.getElementById('themeToggleBar');
-    const audioPlayPause = document.getElementById('audioPlayPause');
-    const audio = document.querySelector('audio');
 
     // Set today's date
     const today = new Date();
@@ -19,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set audio source dynamically
     if (audioSource) {
         audioSource.src = dailyAudioSrc;
-        audio.load();
+        document.querySelector('audio').load();
     }
 
     // Load readings for December 24, 2025 – Christmas Eve
@@ -138,58 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Theme toggle (main button)
+    // Theme toggle (main button in header)
     themeBtn.addEventListener('click', () => {
-        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
             document.documentElement.removeAttribute('data-theme');
             themeBtn.textContent = 'Dark Mode';
-            themeToggleBar.textContent = '🌙';
         } else {
             document.documentElement.setAttribute('data-theme', 'dark');
             themeBtn.textContent = 'Light Mode';
-            themeToggleBar.textContent = '☀️';
-        }
-    });
-
-    // Theme toggle for bar
-    themeToggleBar.addEventListener('click', () => {
-        if (document.documentElement.getAttribute('data-theme') === 'dark') {
-            document.documentElement.removeAttribute('data-theme');
-            themeToggleBar.textContent = '🌙';
-            themeBtn.textContent = 'Dark Mode';
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeToggleBar.textContent = '☀️';
-            themeBtn.textContent = 'Light Mode';
-        }
-    });
-
-    // Audio play/pause for bar
-    audioPlayPause.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            audioPlayPause.textContent = '⏸';
-        } else {
-            audio.pause();
-            audioPlayPause.textContent = '▶️';
-        }
-    });
-
-    // Sync audio state with bar button
-    audio.addEventListener('play', () => {
-        audioPlayPause.textContent = '⏸';
-    });
-    audio.addEventListener('pause', () => {
-        audioPlayPause.textContent = '▶️';
-    });
-
-    // Fixed top bar scroll reveal
-    const headerHeight = document.querySelector('header').offsetHeight;
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > headerHeight) {
-            fixedBar.classList.add('visible');
-        } else {
-            fixedBar.classList.remove('visible');
         }
     });
 
