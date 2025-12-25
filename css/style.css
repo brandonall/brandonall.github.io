@@ -6,15 +6,25 @@ body {
     background: #f8f9fa;
     color: #333;
     line-height: 1.7;
+    transition: background 0.4s, color 0.4s;
+}
+
+[data-theme="dark"] body {
+    background: #0d1117;
+    color: #c9d1d9;
 }
 
 header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     padding: 20px;
     background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] header {
+    background: linear-gradient(to bottom, #0d1117, #21262d);
 }
 
 h1 {
@@ -22,9 +32,17 @@ h1 {
     color: #1e88e5;
 }
 
+[data-theme="dark"] h1 {
+    color: #58a6ff;
+}
+
 .subtitle {
     font-style: italic;
     color: #555;
+}
+
+[data-theme="dark"] .subtitle {
+    color: #888;
 }
 
 .date {
@@ -33,18 +51,34 @@ h1 {
     color: #d81b60;
 }
 
-.readings-container, .questions-container, .audio-container {
+[data-theme="dark"] .date {
+    color: #ff79c6;
+}
+
+.readings-container, .questions-container {
     background: white;
     padding: 30px;
     margin: 20px 0;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: background 0.4s, box-shadow 0.4s;
+}
+
+[data-theme="dark"] .readings-container,
+[data-theme="dark"] .questions-container {
+    background: #161b22;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
 h2 {
     color: #1e88e5;
     border-bottom: 2px solid #bbdefb;
     padding-bottom: 10px;
+}
+
+[data-theme="dark"] h2 {
+    color: #58a6ff;
+    border-bottom: 2px solid #388bfd;
 }
 
 .reading {
@@ -54,6 +88,10 @@ h2 {
 .reading h4 {
     color: #d81b60;
     margin-bottom: 10px;
+}
+
+[data-theme="dark"] .reading h4 {
+    color: #ff79c6;
 }
 
 #questions-list {
@@ -70,19 +108,19 @@ h2 {
     font-size: 1.1em;
 }
 
+[data-theme="dark"] #questions-list li {
+    background: rgba(88, 166, 255, 0.1);
+    border-left: 5px solid #58a6ff;
+}
+
 .source {
     font-style: italic;
     text-align: right;
     color: #666;
 }
 
-.audio-container {
-    text-align: center;
-}
-
-audio {
-    width: 100%;
-    margin: 20px 0;
+[data-theme="dark"] .source {
+    color: #888;
 }
 
 /* Theme toggle */
@@ -106,14 +144,9 @@ audio {
     background: #1565c0;
 }
 
-/* Footer centered */
 footer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 50px;
     color: #888;
     font-size: 0.9em;
-}
-
-footer p {
-    margin: 5px 0;
 }
