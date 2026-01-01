@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Catholic Readings & Reflection – December 30, 2025</title>
+  <title>Daily Catholic Readings & Reflection – December 31, 2025</title>
   <style>
     body {
       font-family: Georgia, serif;
@@ -15,12 +15,22 @@
       line-height: 1.7;
     }
 
+    [data-theme="dark"] body {
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+
     header {
       text-align: center;
       margin-bottom: 30px;
       padding: 20px;
       background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
       border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    [data-theme="dark"] header {
+      background: linear-gradient(to bottom, #0d1117, #21262d);
     }
 
     h1 {
@@ -28,15 +38,27 @@
       color: #1e88e5;
     }
 
+    [data-theme="dark"] h1 {
+      color: #58a6ff;
+    }
+
     .subtitle, .date {
       font-style: italic;
       color: #555;
+    }
+
+    [data-theme="dark"] .subtitle, [data-theme="dark"] .date {
+      color: #888;
     }
 
     .date {
       font-size: 1.2em;
       font-weight: bold;
       color: #d81b60;
+    }
+
+    [data-theme="dark"] .date {
+      color: #ff79c6;
     }
 
     .section {
@@ -47,10 +69,30 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
+    [data-theme="dark"] .section {
+      background: #161b22;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
     h2 {
       color: #1e88e5;
       border-bottom: 2px solid #bbdefb;
       padding-bottom: 10px;
+    }
+
+    [data-theme="dark"] h2 {
+      color: #58a6ff;
+      border-bottom: 2px solid #388bfd;
+    }
+
+    .audio-player {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 600px;
     }
 
     .reading {
@@ -60,6 +102,10 @@
     .reading h4 {
       color: #d81b60;
       margin-bottom: 10px;
+    }
+
+    [data-theme="dark"] .reading h4 {
+      color: #ff79c6;
     }
 
     #questions-list {
@@ -75,10 +121,19 @@
       border-radius: 8px;
     }
 
+    [data-theme="dark"] #questions-list li {
+      background: rgba(88,166,255,0.1);
+      border-left: 5px solid #58a6ff;
+    }
+
     .source {
       font-style: italic;
       text-align: right;
       color: #666;
+    }
+
+    [data-theme="dark"] .source {
+      color: #888;
     }
 
     footer {
@@ -87,33 +142,70 @@
       color: #888;
       font-size: 0.9em;
     }
+
+    [data-theme="dark"] footer {
+      color: #888;
+    }
+
+    .theme-toggle {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    #themeBtn {
+      background: #1e88e5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s;
+    }
+
+    #themeBtn:hover {
+      background: #1565c0;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Daily Catholic Readings</h1>
-    <p class="date">Tuesday, December 30, 2025</p>
-    <p class="subtitle">Sixth Day in the Octave of Christmas</p>
+    <p class="date">Wednesday, December 31, 2025</p>
+    <p class="subtitle">Seventh Day in the Octave of Christmas</p>
+
+    <div class="theme-toggle">
+      <button id="themeBtn">Dark Mode</button>
+    </div>
   </header>
 
   <section class="section" id="readings">
     <h2>Today's Readings</h2>
+
+    <div class="audio-player">
+      <p>Listen to the Readings:</p>
+      <audio controls>
+        <source src="audio/ElevenLabs_2025-12-31T20_09_52_Brian_eleven_v3.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
     <div id="readings-content">
-      <h3>Sixth Day in the Octave of Christmas</h3>
+      <h3>Seventh Day in the Octave of Christmas</h3>
 
       <div class="reading">
-        <h4>Reading 1: 1 John 2:12-17</h4>
-        <p>I am writing to you, children, because your sins have been forgiven for his name’s sake. I am writing to you, fathers, because you know him who is from the beginning. I am writing to you, young men, because you have conquered the Evil One. I write to you, children, because you know the Father. I write to you, young men, because you are strong and the word of God remains in you, and you have conquered the Evil One. Do not love the world or the things of the world. If anyone loves the world, the love of the Father is not in him. For all that is in the world, sensual lust, enticement for the eyes, and a pretentious life, is not from the Father but is from the world. Yet the world and its enticement are passing away. But whoever does the will of God remains forever.</p>
+        <h4>Reading 1: 1 John 2:18-21</h4>
+        <p>Children, it is the last hour; and just as you heard that the antichrist was coming, so now many antichrists have appeared. Thus we know this is the last hour. They went out from us, but they were not from us; if they had been, they would have remained with us. Their desertion shows that none of them was of our number. But you have the anointing that comes from the Holy One, so that you have knowledge of the truth. I do not write you because you do not know the truth, but because you do know it, and because no lie is of the truth.</p>
       </div>
 
       <div class="reading">
-        <h4>Responsorial Psalm: Psalm 96:7-8a, 8b-9, 10</h4>
-        <p>R. Let the heavens be glad and the earth rejoice! Give to the LORD, you families of nations, give to the LORD glory and praise; give to the LORD the glory due his name! R. Let the heavens be glad and the earth rejoice! Bring gifts, and enter his courts; worship the LORD in holy attire. Tremble before him, all the earth; R. Let the heavens be glad and the earth rejoice! Say among the nations: The LORD is king. He has made the world steadfast; it shall never be shaken. He governs the peoples with equity. R. Let the heavens be glad and the earth rejoice!</p>
+        <h4>Responsorial Psalm: Psalm 96:1-2, 11-12, 13</h4>
+        <p>R. Let the heavens be glad and the earth rejoice! Sing to the LORD a new song; sing to the LORD, all you lands. Sing to the LORD; bless his name. R. Let the heavens be glad and the earth rejoice! Let the heavens be glad and the earth rejoice; let the sea and what fills it resound; let the plains be joyful and the mountains exult. R. Let the heavens be glad and the earth rejoice! Then shall all the trees of the forest exult before the LORD, for he comes; for he comes to rule the earth with justice and the peoples with his faithfulness. R. Let the heavens be glad and the earth rejoice!</p>
       </div>
 
       <div class="reading">
-        <h4>Gospel: Luke 2:36-40</h4>
-        <p>There was also a prophetess, Anna, the daughter of Phanuel, of the tribe of Asher. She was advanced in years, having lived seven years with her husband after her marriage, and then as a widow until she was eighty-four. She never left the temple, but worshiped night and day with fasting and prayer. And coming forward at that very time, she gave thanks to God and spoke about the child to all who were awaiting the redemption of Jerusalem. When they had fulfilled all the prescriptions of the law of the Lord, they returned to Galilee, to their own town of Nazareth. The child grew and became strong, filled with wisdom; and the favor of God was upon him.</p>
+        <h4>Gospel: John 1:1-18</h4>
+        <p>In the beginning was the Word, and the Word was with God, and the Word was God. He was in the beginning with God. All things came to be through him, and without him nothing came to be. What came to be through him was life, and this life was the light of the human race; the light shines in the darkness, and the darkness has not overcome it. A man named John was sent from God. He came for testimony, to testify to the light, so that all might believe through him. He was not the light, but came to testify to the light. The true light, which enlightens everyone, was coming into the world. He was in the world, and the world came to be through him, but the world did not know him. He came to what was his own, but his own people did not accept him. But to those who did accept him he gave power to become children of God, to those who believe in his name, who were born not by natural generation nor by human choice nor by a man’s decision but of God. And the Word became flesh and made his dwelling among us, and we saw his glory, the glory as of the Father’s only Son, full of grace and truth. John testified to him and cried out, saying, “This was he of whom I said, ‘The one who is coming after me ranks ahead of me because he existed before me.’” From his fullness we have all received, grace in place of grace, because while the law was given through Moses, grace and truth came through Jesus Christ. No one has ever seen God. The only Son, God, who is at the Father’s side, has revealed him.</p>
       </div>
     </div>
     <p class="source">Readings from <a href="https://bible.usccb.org" target="_blank">USCCB.org</a></p>
@@ -121,6 +213,15 @@
 
   <section class="section">
     <h2>Daily Reflection Questions</h2>
+
+    <div class="audio-player">
+      <p>Listen to the Questions:</p>
+      <audio controls>
+        <source src="audio/ElevenLabs_2025-12-31T20_21_34_Brian_eleven_v3.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
     <ul id="questions-list">
       <li>John writes that we have an advocate with the Father, Jesus Christ. How does knowing Jesus as my advocate bring me peace today?</li>
       <li>If we walk in darkness but claim to have fellowship with God, we lie. What areas of my life need more light and honesty?</li>
