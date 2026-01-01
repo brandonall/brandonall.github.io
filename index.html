@@ -154,7 +154,7 @@
       background: #1565c0;
     }
 
-    /* New Year message */
+    /* New Year message - shorter display, slower fade */
     #newYearMessage {
       position: fixed;
       top: 50%;
@@ -169,7 +169,7 @@
       color: #d81b60;
       text-align: center;
       z-index: 1000;
-      animation: fadeOut 5s forwards;
+      animation: fadeOut 4s forwards;
     }
 
     [data-theme="dark"] #newYearMessage {
@@ -179,8 +179,8 @@
 
     @keyframes fadeOut {
       0% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; display: none; }
+      50% { opacity: 1; }   /* Full opacity for ~2 seconds */
+      100% { opacity: 0; }  /* Slow fade over last 2 seconds */
     }
   </style>
 </head>
@@ -282,7 +282,7 @@
     <h2>Daily Reflection Questions</h2>
     <ul id="questions-list">
       <li>The priestly blessing asks God to let His face shine upon us. How does this image of God's radiant presence comfort me today?</li>
-      <li>Mary is honored as the Holy Mother of God. How does her "yes" to God inspire my own openness to His will?</li>
+      <li>Mary is honored as the Holy Mother of God. How does her role in salvation history deepen my trust in her intercession?</li>
       <li>God sent His Son, born of a woman, to make us adopted children. How does this truth of divine sonship fill me with hope for the new year?</li>
       <li>The shepherds glorified God for what they had seen and heard. What has God shown me this Christmas that calls me to praise?</li>
       <li>Mary treasured all these things and pondered them in her heart. How can I cultivate a more contemplative heart in 2026?</li>
@@ -303,17 +303,17 @@
     window.addEventListener('load', () => {
       // Confetti burst
       confetti({
-        particleCount: 100,
+        particleCount: 150,
         spread: 70,
         origin: { y: 0.6 }
       });
 
-      // Message fades after 5 seconds
+      // Message visible for ~3 seconds full, then slow fade over ~2 seconds
       const message = document.getElementById('newYearMessage');
       setTimeout(() => {
         message.style.opacity = '0';
-        setTimeout(() => message.remove(), 1000);
-      }, 5000);
+        setTimeout(() => message.remove(), 2000); // Remove after fade
+      }, 3000);
     });
 
     // Theme toggle
