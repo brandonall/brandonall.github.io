@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daily Catholic Readings & Reflection – January 1, 2026</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     body {
       font-family: Georgia, serif;
@@ -152,6 +153,35 @@
     #themeBtn:hover {
       background: #1565c0;
     }
+
+    /* New Year message */
+    #newYearMessage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.95);
+      padding: 20px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      font-size: 2em;
+      font-weight: bold;
+      color: #d81b60;
+      text-align: center;
+      z-index: 1000;
+      animation: fadeOut 5s forwards;
+    }
+
+    [data-theme="dark"] #newYearMessage {
+      background: rgba(13,17,23,0.95);
+      color: #ff79c6;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; display: none; }
+    }
   </style>
 </head>
 <body>
@@ -168,8 +198,6 @@
   <section class="section" id="readings">
     <h2>Today's Readings</h2>
     <div id="readings-content">
-      <h3>Solemnity of Mary, the Holy Mother of God</h3>
-
       <div class="reading">
         <h4>Reading I: Numbers 6:22-27</h4>
         <p>The LORD said to Moses:  
@@ -253,12 +281,12 @@
   <section class="section">
     <h2>Daily Reflection Questions</h2>
     <ul id="questions-list">
-      <li>The Lord blesses and keeps us, letting His face shine upon us. How does this ancient blessing speak to my need for God's presence today?</li>
-      <li>Mary is the Holy Mother of God. How does her role in salvation history deepen my trust in her intercession?</li>
-      <li>God sent His Son, born of a woman, to make us adopted children. How does this truth of divine adoption fill me with gratitude?</li>
+      <li>The priestly blessing asks God to let His face shine upon us. How does this image of God's radiant presence comfort me today?</li>
+      <li>Mary is honored as the Holy Mother of God. How does her "yes" to God inspire my own openness to His will?</li>
+      <li>God sent His Son, born of a woman, to make us adopted children. How does this truth of divine sonship fill me with hope for the new year?</li>
       <li>The shepherds glorified God for what they had seen and heard. What has God shown me this Christmas that calls me to praise?</li>
-      <li>Mary kept all these things, reflecting on them in her heart. How can I imitate Mary's contemplative heart in the new year?</li>
-      <li>Jesus is named on the eighth day. What does the name of Jesus mean to me as I begin this new year?</li>
+      <li>Mary treasured all these things and pondered them in her heart. How can I cultivate a more contemplative heart in 2026?</li>
+      <li>Jesus is named on the eighth day. What power does the name of Jesus hold for me as I begin this new year?</li>
     </ul>
   </section>
 
@@ -267,7 +295,27 @@
     <p style="font-size: 0.8em; color: #888; font-style: italic; margin-top: 20px;">for Frances ♡</p>
   </footer>
 
+  <!-- New Year Confetti + Message -->
+  <div id="newYearMessage">Happy New Year! 🎉</div>
+
   <script>
+    // Confetti + New Year message on load
+    window.addEventListener('load', () => {
+      // Confetti burst
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      // Message fades after 5 seconds
+      const message = document.getElementById('newYearMessage');
+      setTimeout(() => {
+        message.style.opacity = '0';
+        setTimeout(() => message.remove(), 1000);
+      }, 5000);
+    });
+
     // Theme toggle
     document.getElementById('themeBtn').addEventListener('click', () => {
       const html = document.documentElement;
