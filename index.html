@@ -1,332 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Catholic Readings & Reflection – January 1, 2026</title>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <style>
-    body {
-      font-family: Georgia, serif;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #f8f9fa;
-      color: #333;
-      line-height: 1.7;
-    }
-
-    [data-theme="dark"] body {
-      background: #0d1117;
-      color: #c9d1d9;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-      padding: 20px;
-      background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-
-    [data-theme="dark"] header {
-      background: linear-gradient(to bottom, #0d1117, #21262d);
-    }
-
-    h1 {
-      margin: 0;
-      color: #1e88e5;
-    }
-
-    [data-theme="dark"] h1 {
-      color: #58a6ff;
-    }
-
-    .subtitle {
-      font-style: italic;
-      color: #555;
-    }
-
-    [data-theme="dark"] .subtitle {
-      color: #888;
-    }
-
-    .date {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #d81b60;
-    }
-
-    [data-theme="dark"] .date {
-      color: #ff79c6;
-    }
-
-    .section {
-      background: white;
-      padding: 30px;
-      margin: 20px 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-
-    [data-theme="dark"] .section {
-      background: #161b22;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    }
-
-    h2 {
-      color: #1e88e5;
-      border-bottom: 2px solid #bbdefb;
-      padding-bottom: 10px;
-    }
-
-    [data-theme="dark"] h2 {
-      color: #58a6ff;
-      border-bottom: 2px solid #388bfd;
-    }
-
-    .reading {
-      margin-bottom: 30px;
-    }
-
-    .reading h4 {
-      color: #d81b60;
-      margin-bottom: 10px;
-    }
-
-    [data-theme="dark"] .reading h4 {
-      color: #ff79c6;
-    }
-
-    #questions-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    #questions-list li {
-      background: #e3f2fd;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-left: 5px solid #1e88e5;
-      border-radius: 8px;
-    }
-
-    [data-theme="dark"] #questions-list li {
-      background: rgba(88,166,255,0.1);
-      border-left: 5px solid #58a6ff;
-    }
-
-    .source {
-      font-style: italic;
-      text-align: right;
-      color: #666;
-    }
-
-    [data-theme="dark"] .source {
-      color: #888;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #888;
-      font-size: 0.9em;
-    }
-
-    .theme-toggle {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    #themeBtn {
-      background: #1e88e5;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background 0.3s;
-    }
-
-    #themeBtn:hover {
-      background: #1565c0;
-    }
-
-    /* New Year message - shorter display, slower fade */
-    #newYearMessage {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.95);
-      padding: 20px 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-      font-size: 2em;
-      font-weight: bold;
-      color: #d81b60;
-      text-align: center;
-      z-index: 1000;
-      animation: fadeOut 4s forwards;
-    }
-
-    [data-theme="dark"] #newYearMessage {
-      background: rgba(13,17,23,0.95);
-      color: #ff79c6;
-    }
-
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      50% { opacity: 1; }   /* Full opacity for ~2 seconds */
-      100% { opacity: 0; }  /* Slow fade over last 2 seconds */
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- The all-important redirect meta tag -->
+    <meta http-equiv="refresh" content="0; url=https://daily-mass-readings.com">
+    
+    <title>Redirecting to Daily Mass Readings</title>
+    
+    <!-- Basic styling while the redirect happens (very brief) -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: #f5f5f5;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: grid;
+            place-items: center;
+            color: #333;
+        }
+        .message {
+            text-align: center;
+            padding: 2rem;
+            max-width: 90%;
+        }
+        h1 {
+            margin: 0 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        p {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Daily Catholic Readings</h1>
-    <p class="date">Thursday, January 1, 2026</p>
-    <p class="subtitle">Solemnity of Mary, the Holy Mother of God</p>
-
-    <div class="theme-toggle">
-      <button id="themeBtn">Dark Mode</button>
+    <div class="message">
+        <h1>Redirecting...</h1>
+        <p>
+            Taking you to <strong><a href="https://daily-mass-readings.com">Daily Mass Readings</a></strong><br>
+            <small>(if you are not redirected automatically, click the link above)</small>
+        </p>
     </div>
-  </header>
-
-  <section class="section" id="readings">
-    <h2>Today's Readings</h2>
-    <div id="readings-content">
-      <div class="reading">
-        <h4>Reading I: Numbers 6:22-27</h4>
-        <p>The LORD said to Moses:  
-        “Speak to Aaron and his sons and tell them:  
-        This is how you shall bless the Israelites.  
-        Say to them:  
-        The LORD bless you and keep you!  
-        The LORD let his face shine upon      
-        you, and be gracious to you!  
-        The LORD look upon you kindly and      
-        give you peace!  
-        So shall they invoke my name upon the Israelites,  
-        and I will bless them.”</p>
-      </div>
-
-      <div class="reading">
-        <h4>Responsorial Psalm: Psalm 67:2-3, 5, 6, 8</h4>
-        <p>R. May God bless us in his mercy.  
-        May God have pity on us and bless us;  
-        may he let his face shine upon us.  
-        So may your way be known upon earth;  
-        among all nations, your salvation.  
-        R. May God bless us in his mercy.  
-        May the nations be glad and exult  
-        because you rule the peoples in equity;  
-        the nations on the earth you guide.  
-        R. May God bless us in his mercy.  
-        May the peoples praise you, O God;  
-        may all the peoples praise you!  
-        May God bless us,  
-        and may all the ends of the earth fear him!  
-        R. May God bless us in his mercy.</p>
-      </div>
-
-      <div class="reading">
-        <h4>Reading II: Galatians 4:4-7</h4>
-        <p>Brothers and sisters:  
-        When the fullness of time had come, God sent his Son,  
-        born of a woman, born under the law,  
-        to ransom those under the law,  
-        so that we might receive adoption as sons.  
-        As proof that you are sons,  
-        God sent the Spirit of his Son into our hearts,  
-        crying out, “Abba, Father!”  
-        So you are no longer a slave but a son,  
-        and if a son then also an heir, through God.</p>
-      </div>
-
-      <div class="reading">
-        <h4>Alleluia: Hebrews 1:1-2</h4>
-        <p>R. Alleluia, alleluia.  
-        In the past God spoke to our ancestors through the prophets;  
-        in these last days, he has spoken to us through the Son.  
-        R. Alleluia, alleluia.</p>
-      </div>
-
-      <div class="reading">
-        <h4>Gospel: Luke 2:16-21</h4>
-        <p>The shepherds went in haste to Bethlehem and found Mary and Joseph,  
-        and the infant lying in the manger.  
-        When they saw this,  
-        they made known the message  
-        that had been told them about this child.  
-        All who heard it were amazed  
-        by what had been told them by the shepherds.  
-        And Mary kept all these things,  
-        reflecting on them in her heart.  
-        Then the shepherds returned,  
-        glorifying and praising God  
-        for all they had heard and seen,  
-        just as it had been told to them.  
-
-        When eight days were completed for his circumcision,  
-        he was named Jesus, the name given him by the angel  
-        before he was conceived in the womb.</p>
-      </div>
-    </div>
-    <p class="source">Readings from <a href="https://bible.usccb.org" target="_blank">USCCB.org</a></p>
-  </section>
-
-  <section class="section">
-    <h2>Daily Reflection Questions</h2>
-    <ul id="questions-list">
-      <li>The priestly blessing asks God to let His face shine upon us. How does this image of God's radiant presence comfort me today?</li>
-      <li>Mary is honored as the Holy Mother of God. How does her role in salvation history deepen my trust in her intercession?</li>
-      <li>God sent His Son, born of a woman, to make us adopted children. How does this truth of divine sonship fill me with hope for the new year?</li>
-      <li>The shepherds glorified God for what they had seen and heard. What has God shown me this Christmas that calls me to praise?</li>
-      <li>Mary treasured all these things and pondered them in her heart. How can I cultivate a more contemplative heart in 2026?</li>
-      <li>Jesus is named on the eighth day. What power does the name of Jesus hold for me as I begin this new year?</li>
-    </ul>
-  </section>
-
-  <footer>
-    <p><a href="https://github.com/brandonall/daily-mass-readings">GitHub Repository</a></p>
-    <p style="font-size: 0.8em; color: #888; font-style: italic; margin-top: 20px;">for Frances ♡</p>
-  </footer>
-
-  <!-- New Year Confetti + Message -->
-  <div id="newYearMessage">Happy New Year! 🎉</div>
-
-  <script>
-    // Confetti + New Year message on load
-    window.addEventListener('load', () => {
-      // Confetti burst
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-
-      // Message visible for ~3 seconds full, then slow fade over ~2 seconds
-      const message = document.getElementById('newYearMessage');
-      setTimeout(() => {
-        message.style.opacity = '0';
-        setTimeout(() => message.remove(), 2000); // Remove after fade
-      }, 3000);
-    });
-
-    // Theme toggle
-    document.getElementById('themeBtn').addEventListener('click', () => {
-      const html = document.documentElement;
-      if (html.getAttribute('data-theme') === 'dark') {
-        html.removeAttribute('data-theme');
-        document.getElementById('themeBtn').textContent = 'Dark Mode';
-      } else {
-        html.setAttribute('data-theme', 'dark');
-        document.getElementById('themeBtn').textContent = 'Light Mode';
-      }
-    });
-  </script>
 </body>
 </html>
